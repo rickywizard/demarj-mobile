@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import edu.bluejack23_2.demarj.R
+import edu.bluejack23_2.demarj.activities.MainActivity
+import edu.bluejack23_2.demarj.databinding.FragmentHomeBinding
+import edu.bluejack23_2.demarj.databinding.FragmentNotificationBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,12 +22,27 @@ private const val ARG_PARAM2 = "param2"
  */
 class NotificationFragment : Fragment() {
 
+    private var _notificationBinding: FragmentNotificationBinding? = null
+    private val notificationBinding get() = _notificationBinding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false)
+        _notificationBinding = FragmentNotificationBinding.inflate(inflater, container, false)
+        val view = notificationBinding.root
+
+        val activity = requireActivity() as MainActivity
+        activity.binding.header.visibility = View.VISIBLE
+        activity.binding.tvPageTitle.text = "Notifications"
+        activity.binding.tvPageSubtitle.text = "What notifications are there?"
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _notificationBinding = null
     }
 
 }

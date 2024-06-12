@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import edu.bluejack23_2.demarj.R
 import edu.bluejack23_2.demarj.databinding.ActivityMainBinding
 import edu.bluejack23_2.demarj.fragments.HomeFragment
+import edu.bluejack23_2.demarj.fragments.NotificationFragment
+import edu.bluejack23_2.demarj.fragments.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -15,14 +17,27 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        replaceFragment(HomeFragment())
+        replaceFragment(HomeFragment())
 
-//        binding.botNav.seton
+        binding.botNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.homeMenu -> {
+                    replaceFragment(HomeFragment())
+                }
+                R.id.notificationMenu -> {
+                    replaceFragment(NotificationFragment())
+                }
+                R.id.profileMenu -> {
+                    replaceFragment(ProfileFragment())
+                }
+            }
+            false
+        }
     }
 
-//    private fun replaceFragment(fragment: Fragment) {
-//        val fragmentTranscation = supportFragmentManager.beginTransaction()
-//        fragmentTranscation.replace(R.id.fragmenContainer, fragment)
-//        fragmentTranscation.commit()
-//    }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment)
+        fragmentTransaction.commit()
+    }
 }
