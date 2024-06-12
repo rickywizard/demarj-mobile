@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.IntroActivity"
+    android:orientation="vertical"
+    android:background="@color/green"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
+
+    <ImageView
+        android:id="@+id/maskot_1"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:src="@drawable/maskot_1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:fontFamily="@font/acme"
+        android:id="@+id/welcome_text"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DEmaRJ"
+        android:textColor="@color/white"
+        android:textSize="55sp"
+        android:textAlignment="center"
+        android:fontFamily="@font/acme"
+        android:id="@+id/title_text"/>
+
+    <ImageView
+        android:id="@+id/get_started_bttn"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:src="@drawable/get_started_bttn" />
+
+
+</LinearLayout>

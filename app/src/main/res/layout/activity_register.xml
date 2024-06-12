@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterActivity"
+    android:paddingTop="20dp"
+    android:paddingHorizontal="30dp"
+    >
+
+    <TextView
+        android:id="@+id/register_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/acme"
+        android:text="Register"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/register_desc"/>
+
+    <TextView
+        android:id="@+id/register_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/acme"
+        android:paddingTop="5dp"
+        android:text="Fill your information below !"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_text" />
+
+    <ScrollView
+        android:id="@+id/register_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_desc">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fullname_text_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Full Name"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/fullname_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:text="test"
+                android:layout_marginTop="10dp"
+               />
+
+            <TextView
+                android:id="@+id/email_text_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Email"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+               />
+
+            <EditText
+                android:id="@+id/email_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:text="test"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/password_text_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Password"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/password_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:text="test"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/phone_text_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Phone Number"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/phone_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:text="test"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/store_name_text_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Store Name"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/store_name_register"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:text="test"
+                android:layout_marginTop="10dp"
+                />
+
+            <ImageView
+                android:id="@+id/register_bttn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/register_bttn"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="60dp"
+                >
+
+                <TextView
+                    android:id="@+id/to_register_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:fontFamily="@font/acme"
+                    android:text="Already have an account ?"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/to_register_bttn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/acme"
+                    android:text="Login"
+                    android:textColor="@color/green"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
