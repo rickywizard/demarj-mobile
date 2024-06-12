@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DEmaRJ</string>
+    <string name="page_title">Page Title</string>
+    <string name="page_subtitle">Page Subtitle</string>
+    <string name="profile_name">Daniel Wijaya</string>
+    <string name="profile_email">daniel.wijaya@gmail.com</string>
+    <string name="profile_phone">081234567890</string>
+    <string name="sign_out"><u>Sign Out</u></string>
+    <string name="section_title">Section Title</string>
 </resources>
