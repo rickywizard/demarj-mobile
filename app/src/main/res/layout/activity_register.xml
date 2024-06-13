@@ -229,7 +229,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/to_register_desc"
+                    android:id="@+id/to_login_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
@@ -239,7 +239,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/to_register_bttn"
+                    android:id="@+id/to_login_bttn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="40dp"
