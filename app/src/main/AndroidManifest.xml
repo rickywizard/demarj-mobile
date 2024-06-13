@@ -12,7 +12,7 @@
         android:theme="@style/Theme.DEmaRJ"
         tools:targetApi="31">
         <activity
-            android:name=".CreateActivity"
+            android:name=".activities.CreateActivity"
             android:exported="false" />
         <activity
             android:name=".activities.IntroActivity"
