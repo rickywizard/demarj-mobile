@@ -88,7 +88,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your full name"
+                android:inputType="text"
                 android:layout_marginTop="10dp"
                />
 
@@ -110,7 +111,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your email"
+                android:inputType="textEmailAddress"
                 android:layout_marginTop="10dp"
                 />
 
@@ -132,7 +134,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your password"
+                android:inputType="textPassword"
                 android:layout_marginTop="10dp"
                 />
 
@@ -154,7 +157,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your phone number"
+                android:inputType="phone"
                 android:layout_marginTop="10dp"
                 />
 
@@ -203,7 +207,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your store name"
+                android:inputType="text"
                 android:layout_marginTop="10dp"
                 />
 
