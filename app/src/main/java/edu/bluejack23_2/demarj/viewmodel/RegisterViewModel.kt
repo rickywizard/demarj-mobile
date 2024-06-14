@@ -1,5 +1,6 @@
 package edu.bluejack23_2.demarj.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,34 +12,29 @@ class RegisterViewModel : ViewModel() {
 
     private val userRepository = UserRepository()
 
-    private val _registrationStatus = MutableLiveData<Boolean>()
-    val registrationStatus: LiveData<Boolean> = _registrationStatus
+    private val _registerResult = MutableLiveData<Result<String>>()
+    val registerResult: LiveData<Result<String>> get() = _registerResult
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> = _errorMessage
-
-    fun register(fullname: String, email: String, password: String, phoneNumber: String, storeName: String) {
+    fun registerUser(profileUri: Uri, fullname: String, email: String, password: String, phone_number: String, role: String, store_name: String) {
         viewModelScope.launch {
-            val registerResult = userRepository.registerUser(email, password)
-            if (registerResult.isSuccess) {
-                val userId = registerResult.getOrNull() ?: return@launch
-//                val uploadResult = userRepository.uploadProfilePicture(userId, profilePictureUri)
-//                if (uploadResult.isSuccess) {
-//                    val profilePictureUrl = uploadResult.getOrNull() ?: return@launch
-                    val user = User(fullname, email, phoneNumber, storeName)
-                    val saveResult = userRepository.saveUserData(user)
-                    _registrationStatus.value = saveResult.isSuccess
-                    if (!saveResult.isSuccess) {
-                        _errorMessage.value = saveResult.exceptionOrNull()?.message
-                    }
-//                } else {
-//                    _errorMessage.value = uploadResult.exceptionOrNull()?.message
-//                    _registrationStatus.value = false
-//                }
-            } else {
-                _errorMessage.value = registerResult.exceptionOrNull()?.message
-                _registrationStatus.value = false
+            val registerAuthResult = userRepository.registerAuth(email, password)
+            if (registerAuthResult.isFailure) {
+                _registerResult.postValue(registerAuthResult)
+                return@launch
             }
+
+            val userId = registerAuthResult.getOrNull() ?: return@launch
+
+            val uploadResult = userRepository.uploadProfilePicture(userId, profileUri)
+            if (uploadResult.isFailure) {
+                _registerResult.postValue(uploadResult)
+                return@launch
+            }
+
+            val profilePictureUrl = uploadResult.getOrNull() ?: return@launch
+
+            val registerUserResult = userRepository.registerUser(userId, profilePictureUrl, fullname, email, phone_number, role, store_name)
+            _registerResult.postValue(registerUserResult)
         }
     }
 }

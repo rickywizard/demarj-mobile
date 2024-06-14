@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import edu.bluejack23_2.demarj.model.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -14,7 +15,7 @@ class UserRepository {
     private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
-    suspend fun registerUser(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
+    suspend fun registerAuth(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
@@ -26,7 +27,7 @@ class UserRepository {
     }
 
     suspend fun uploadProfilePicture(userId: String, uri: Uri): Result<String> = suspendCoroutine { continuation ->
-        val profilePicRef = storage.child("profile_pictures/$userId.jpg")
+        val profilePicRef = storage.child("profile_pictures/$userId/${uri.lastPathSegment}")
         profilePicRef.putFile(uri).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 profilePicRef.downloadUrl.addOnSuccessListener { downloadUrl ->
@@ -38,10 +39,20 @@ class UserRepository {
         }
     }
 
-    suspend fun saveUserData(user: User): Result<Unit> = suspendCoroutine { continuation ->
-        firestore.collection("users").document(user.userId).set(user).addOnCompleteListener { task ->
+    suspend fun registerUser(userId: String, profpict: String, fullname: String, email: String, phone_number: String, role: String, store_name: String): Result<String> = suspendCoroutine {continuation ->
+        val user = User (
+            userId = userId,
+            profile_picture = profpict,
+            fullname = fullname,
+            email = email,
+            phone_number = phone_number,
+            role = role,
+            store_name = store_name
+                )
+
+        database.child(userId).setValue(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                continuation.resume(Result.success(Unit))
+                continuation.resume(Result.success(userId))
             } else {
                 continuation.resume(Result.failure(task.exception ?: Exception("Unknown error occurred")))
             }

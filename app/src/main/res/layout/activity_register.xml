@@ -198,6 +198,7 @@
                 android:textColor="@color/green"
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 />
 
             <EditText
@@ -210,6 +211,7 @@
                 android:hint="Type your store name"
                 android:inputType="text"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 />
 
             <ImageView

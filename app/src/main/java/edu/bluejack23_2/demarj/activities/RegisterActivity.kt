@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -34,31 +35,39 @@ class RegisterActivity : AppCompatActivity() {
             selectProfilePicture()
         }
 
+        binding.cbRole.setOnCheckedChangeListener{_, isChecked ->
+            if (isChecked){
+                binding.storeNameTextRegister.visibility = View.VISIBLE
+                binding.storeNameRegister.visibility = View.VISIBLE
+            }
+            else {
+                binding.storeNameTextRegister.visibility = View.GONE
+                binding.storeNameRegister.visibility = View.GONE
+            }
+        }
+
         binding.registerBttn.setOnClickListener {
             val fullname = binding.fullnameRegister.text.toString()
             val email = binding.emailRegister.text.toString()
             val password = binding.passwordRegister.text.toString()
-            val phoneNumber = binding.phoneRegister.text.toString()
-            val storeName = binding.storeNameRegister.text.toString()
+            val phone_number = binding.phoneRegister.text.toString()
+            val role = if (binding.cbRole.isChecked) "Store Owner" else "User"
+            val store_name = if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
 
-            if (fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phoneNumber.isNotEmpty() && storeName.isNotEmpty()) {
-                registerViewModel.register(fullname, email, password, phoneNumber, storeName)
+            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty() && (binding.cbRole.isChecked && store_name.isNotEmpty()) ) {
+                registerViewModel.registerUser(profilePictureUri!!, fullname, email, password, phone_number, role, store_name)
             } else {
-                Toast.makeText(this, "All fields must not be empty and profile picture must be selected!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "All fields must not be empty!", Toast.LENGTH_SHORT).show()
             }
         }
-//
-        registerViewModel.registrationStatus.observe(this, Observer { status ->
-            if (status) {
+
+        registerViewModel.registerResult.observe(this, Observer { result ->
+            if (result.isSuccess) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
             }
-        })
-//
-        registerViewModel.errorMessage.observe(this, Observer { message ->
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         })
     }
 
