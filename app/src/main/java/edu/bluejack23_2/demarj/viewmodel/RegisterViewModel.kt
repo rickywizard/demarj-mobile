@@ -1,11 +1,9 @@
 package edu.bluejack23_2.demarj.viewmodels
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.bluejack23_2.demarj.model.User
 import edu.bluejack23_2.demarj.repositories.UserRepository
 import kotlinx.coroutines.launch
 

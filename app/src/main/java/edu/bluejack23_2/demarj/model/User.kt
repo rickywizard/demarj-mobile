@@ -1,9 +1,8 @@
 package edu.bluejack23_2.demarj.model
-
-class User(fullname:String, email: String, phoneNumber: String, storeName: String) {
-    val userId: String = ""
-    val fullname: String = ""
-    val email: String = ""
-    val phoneNumber: String = ""
-    val storeName: String = ""
-}
+data class User(
+    val userId: String? = null,
+    val fullname: String? = null,
+    val email: String? = null,
+    val phoneNumber: String? = null,
+    val storeName: String? = null,
+)

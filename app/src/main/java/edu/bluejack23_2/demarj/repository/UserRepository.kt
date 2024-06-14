@@ -2,16 +2,16 @@ package edu.bluejack23_2.demarj.repositories
 
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import edu.bluejack23_2.demarj.model.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class UserRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val firestore = FirebaseFirestore.getInstance()
+    private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
     suspend fun registerUser(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
