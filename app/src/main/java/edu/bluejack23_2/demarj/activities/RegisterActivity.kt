@@ -72,43 +72,38 @@ class RegisterActivity : AppCompatActivity() {
             val store_name =
                 if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
 
-            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty()) {
-                registerViewModel.registerUser(
-                    profilePictureUri!!,
-                    fullname,
-                    email,
-                    password,
-                    phone_number,
-                    role,
-                    store_name
-                )
-            } else {
-                Toast.makeText(this, "All fields must not be empty!", Toast.LENGTH_SHORT).show()
+            if (profilePictureUri == null) {
+                Toast.makeText(this, "Please select a profile picture", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            registerViewModel.validateRegister(
+                profilePictureUri!!,
+                fullname,
+                email,
+                password,
+                phone_number,
+                role,
+                store_name)
         }
 
         registerViewModel.registerResult.observe(this, Observer { result ->
             if (result.isSuccess) {
+                Toast.makeText(this, "Registration Successfully", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        registerViewModel.errorMessage.observe(this, Observer { errorMsg ->
+            errorMsg?.let {
+                if(it != null){
+                    Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
 
-//    private val selectImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-//            profilePictureUri = result.data!!.data
-//            profilePictureUri?.let {
-//                Glide.with(this).load(it).into(binding.photoProfileRegister)
-//            }
-//        }
-//    }
-
-//    private fun selectProfilePicture() {
-//        val intent = Intent(Intent.ACTION_PICK)
-//        intent.type = "image/*"
-//        selectImageResultLauncher.launch(intent)
-//    }
 }
