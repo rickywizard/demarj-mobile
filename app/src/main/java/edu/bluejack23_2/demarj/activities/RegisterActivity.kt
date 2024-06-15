@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import edu.bluejack23_2.demarj.viewmodels.RegisterViewModel
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+//    private lateinit var getContent: ActivityResultLauncher<String>
     private val registerViewModel: RegisterViewModel by viewModels()
     private var profilePictureUri: Uri? = null
 
@@ -31,8 +33,15 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val galeryImage = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback {
+                binding.photoProfileRegister.setImageURI(it)
+            }
+        )
+
         binding.takePhotoBttn.setOnClickListener {
-            selectProfilePicture()
+            galeryImage.launch("image/*")
         }
 
         binding.cbRole.setOnCheckedChangeListener { _, isChecked ->
@@ -79,19 +88,18 @@ class RegisterActivity : AppCompatActivity() {
         })
     }
 
-    private val selectImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            profilePictureUri = result.data!!.data
-            profilePictureUri?.let {
-                Glide.with(this).load(it).into(binding.photoProfileRegister)
-            }
-        }
-    }
+//    private val selectImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+//            profilePictureUri = result.data!!.data
+//            profilePictureUri?.let {
+//                Glide.with(this).load(it).into(binding.photoProfileRegister)
+//            }
+//        }
+//    }
 
-
-    private fun selectProfilePicture() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        selectImageResultLauncher.launch(intent)
-    }
+//    private fun selectProfilePicture() {
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.type = "image/*"
+//        selectImageResultLauncher.launch(intent)
+//    }
 }
