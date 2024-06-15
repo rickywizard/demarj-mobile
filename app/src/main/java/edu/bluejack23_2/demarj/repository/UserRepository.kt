@@ -9,11 +9,13 @@ import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 
 class UserRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
+    private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
     suspend fun registerAuth(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
@@ -48,7 +50,6 @@ class UserRepository {
     }
 
     suspend fun registerUser(userId: String, profpict: String, fullname: String, email: String, phone_number: String, role: String, store_name: String): Result<String> = suspendCoroutine {continuation ->
-        Log.d("UserRepository", "Registering user: $userId")
         val user = User (
             userId = userId,
             profile_picture = profpict,

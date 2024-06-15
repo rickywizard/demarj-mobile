@@ -13,8 +13,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import edu.bluejack23_2.demarj.databinding.ActivityRegisterBinding
+import edu.bluejack23_2.demarj.model.User
 import edu.bluejack23_2.demarj.viewmodels.RegisterViewModel
+import kotlin.coroutines.resume
 import kotlin.math.log
 
 class RegisterActivity : AppCompatActivity() {
@@ -23,6 +27,8 @@ class RegisterActivity : AppCompatActivity() {
     //    private lateinit var getContent: ActivityResultLauncher<String>
     private val registerViewModel: RegisterViewModel by viewModels()
     private var profilePictureUri: Uri? = null
+
+    private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
