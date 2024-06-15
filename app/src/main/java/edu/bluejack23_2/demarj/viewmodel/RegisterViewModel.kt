@@ -34,6 +34,7 @@ class RegisterViewModel : ViewModel() {
                 password.matches(numberPattern.toRegex())
     }
 
+
     fun validateRegister(profileUri: Uri, fullname: String, email: String, password: String, phone_number: String, role: String, store_name: String){
         if (!fullname.isNotEmpty()) {
             _errorMessage.value = "Fullname cannot be empty"

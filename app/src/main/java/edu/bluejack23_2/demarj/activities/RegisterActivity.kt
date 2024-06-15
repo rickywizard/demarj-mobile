@@ -98,9 +98,9 @@ class RegisterActivity : AppCompatActivity() {
         })
 
         registerViewModel.errorMessage.observe(this, Observer { errorMsg ->
-            errorMsg?.let {
-                if(it != null){
-                    Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            errorMsg?.let { err ->
+                if(err != null){
+                    Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
                 }
             }
         })

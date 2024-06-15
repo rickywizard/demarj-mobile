@@ -3,6 +3,8 @@ package edu.bluejack23_2.demarj.repositories
 import android.util.Log
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -17,6 +19,27 @@ class UserRepository {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
+
+    suspend fun loginAuth(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
+        Log.d("UserRepository", "Attempting to login auth with email: $email")
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+                Log.d("UserRepository", "Auth login successful, userId: $userId")
+                continuation.resume(Result.success(userId))
+            } else {
+                val exception = task.exception
+                Log.e("UserRepository", "Auth login failed", exception)
+                if (exception is FirebaseAuthInvalidCredentialsException) {
+                    continuation.resume(Result.failure(Exception("Invalid password.")))
+                } else if (exception is FirebaseAuthInvalidUserException) {
+                    continuation.resume(Result.failure(Exception("No account with this email.")))
+                } else {
+                    continuation.resume(Result.failure(exception ?: Exception("Unknown error occurred")))
+                }
+            }
+        }
+    }
 
     suspend fun registerAuth(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
         Log.d("UserRepository", "Attempting to register auth with email: $email")
