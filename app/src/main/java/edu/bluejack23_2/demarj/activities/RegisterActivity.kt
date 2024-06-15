@@ -1,6 +1,7 @@
 package edu.bluejack23_2.demarj.activities
 
 import android.app.Activity
+import android.util.Log
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.databinding.ActivityRegisterBinding
 import edu.bluejack23_2.demarj.viewmodels.RegisterViewModel
+import kotlin.math.log
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -37,6 +39,7 @@ class RegisterActivity : AppCompatActivity() {
             ActivityResultContracts.GetContent(),
             ActivityResultCallback {
                 binding.photoProfileRegister.setImageURI(it)
+                profilePictureUri = it
             }
         )
 
@@ -63,7 +66,14 @@ class RegisterActivity : AppCompatActivity() {
             val store_name =
                 if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
 
-            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty() && (binding.cbRole.isChecked && store_name.isNotEmpty())) {
+            Log.d("teks", fullname)
+            Log.d("teks", email)
+            Log.d("teks", password)
+            Log.d("teks", phone_number)
+            Log.d("teks", role)
+            Log.d("teks", store_name)
+
+            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty()) {
                 registerViewModel.registerUser(
                     profilePictureUri!!,
                     fullname,

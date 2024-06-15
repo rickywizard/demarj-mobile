@@ -1,5 +1,6 @@
 package edu.bluejack23_2.demarj.repositories
 
+import android.util.Log
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -40,6 +41,7 @@ class UserRepository {
     }
 
     suspend fun registerUser(userId: String, profpict: String, fullname: String, email: String, phone_number: String, role: String, store_name: String): Result<String> = suspendCoroutine {continuation ->
+        Log.d("UserRepository", "Starting registerUser for userId: $userId")
         val user = User (
             userId = userId,
             profile_picture = profpict,
@@ -52,8 +54,10 @@ class UserRepository {
 
         database.child(userId).setValue(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                Log.d("Database", "User data inserted successfully")
                 continuation.resume(Result.success(userId))
             } else {
+                Log.e("Database", "Failed to insert user data", task.exception)
                 continuation.resume(Result.failure(task.exception ?: Exception("Unknown error occurred")))
             }
         }

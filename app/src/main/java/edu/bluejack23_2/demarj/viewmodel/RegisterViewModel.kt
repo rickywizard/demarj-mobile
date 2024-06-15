@@ -1,5 +1,6 @@
 package edu.bluejack23_2.demarj.viewmodels
 
+import android.util.Log
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,9 +32,16 @@ class RegisterViewModel : ViewModel() {
                 return@launch
             }
 
+
             val profilePictureUrl = uploadResult.getOrNull() ?: return@launch
+            Log.d("RegisterViewModel", "uploadProfilePicture successful, profilePictureUrl: $profilePictureUrl")
 
             val registerUserResult = userRepository.registerUser(userId, profilePictureUrl, fullname, email, phone_number, role, store_name)
+            if (registerUserResult.isFailure) {
+                Log.e("RegisterViewModel", "registerUser failed", registerUserResult.exceptionOrNull())
+            } else {
+                Log.d("RegisterViewModel", "registerUser successful")
+            }
             _registerResult.postValue(registerUserResult)
         }
     }
