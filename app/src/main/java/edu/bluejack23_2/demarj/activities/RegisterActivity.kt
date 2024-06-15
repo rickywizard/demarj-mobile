@@ -20,7 +20,7 @@ import kotlin.math.log
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-//    private lateinit var getContent: ActivityResultLauncher<String>
+    //    private lateinit var getContent: ActivityResultLauncher<String>
     private val registerViewModel: RegisterViewModel by viewModels()
     private var profilePictureUri: Uri? = null
 
@@ -65,13 +65,6 @@ class RegisterActivity : AppCompatActivity() {
             val role = if (binding.cbRole.isChecked) "Store Owner" else "User"
             val store_name =
                 if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
-
-            Log.d("teks", fullname)
-            Log.d("teks", email)
-            Log.d("teks", password)
-            Log.d("teks", phone_number)
-            Log.d("teks", role)
-            Log.d("teks", store_name)
 
             if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty()) {
                 registerViewModel.registerUser(

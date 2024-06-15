@@ -31,17 +31,9 @@ class RegisterViewModel : ViewModel() {
                 _registerResult.postValue(uploadResult)
                 return@launch
             }
-
-
             val profilePictureUrl = uploadResult.getOrNull() ?: return@launch
-            Log.d("RegisterViewModel", "uploadProfilePicture successful, profilePictureUrl: $profilePictureUrl")
 
             val registerUserResult = userRepository.registerUser(userId, profilePictureUrl, fullname, email, phone_number, role, store_name)
-            if (registerUserResult.isFailure) {
-                Log.e("RegisterViewModel", "registerUser failed", registerUserResult.exceptionOrNull())
-            } else {
-                Log.d("RegisterViewModel", "registerUser successful")
-            }
             _registerResult.postValue(registerUserResult)
         }
     }
