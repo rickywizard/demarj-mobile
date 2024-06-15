@@ -35,12 +35,11 @@ class RegisterActivity : AppCompatActivity() {
             selectProfilePicture()
         }
 
-        binding.cbRole.setOnCheckedChangeListener{_, isChecked ->
-            if (isChecked){
+        binding.cbRole.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 binding.storeNameTextRegister.visibility = View.VISIBLE
                 binding.storeNameRegister.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.storeNameTextRegister.visibility = View.GONE
                 binding.storeNameRegister.visibility = View.GONE
             }
@@ -52,10 +51,19 @@ class RegisterActivity : AppCompatActivity() {
             val password = binding.passwordRegister.text.toString()
             val phone_number = binding.phoneRegister.text.toString()
             val role = if (binding.cbRole.isChecked) "Store Owner" else "User"
-            val store_name = if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
+            val store_name =
+                if (binding.cbRole.isChecked) binding.storeNameRegister.text.toString() else "-"
 
-            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty() && (binding.cbRole.isChecked && store_name.isNotEmpty()) ) {
-                registerViewModel.registerUser(profilePictureUri!!, fullname, email, password, phone_number, role, store_name)
+            if (profilePictureUri != null && fullname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && phone_number.isNotEmpty() && (binding.cbRole.isChecked && store_name.isNotEmpty())) {
+                registerViewModel.registerUser(
+                    profilePictureUri!!,
+                    fullname,
+                    email,
+                    password,
+                    phone_number,
+                    role,
+                    store_name
+                )
             } else {
                 Toast.makeText(this, "All fields must not be empty!", Toast.LENGTH_SHORT).show()
             }
@@ -79,6 +87,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun selectProfilePicture() {
         val intent = Intent(Intent.ACTION_PICK)
