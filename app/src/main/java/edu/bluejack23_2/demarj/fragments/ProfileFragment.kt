@@ -1,10 +1,13 @@
 package edu.bluejack23_2.demarj.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.R
 import edu.bluejack23_2.demarj.activities.MainActivity
 import edu.bluejack23_2.demarj.databinding.FragmentProfileBinding
@@ -23,7 +26,24 @@ class ProfileFragment : Fragment() {
 
     private var _profileBinding: FragmentProfileBinding? = null
     private val profileBinding get() = _profileBinding!!
+    private lateinit var sharedPreferences: SharedPreferences
 
+    private fun loadProfileData() {
+        val fullname = sharedPreferences.getString("fullname", "Full Name")
+        val email = sharedPreferences.getString("email", "Email")
+        val phoneNumber = sharedPreferences.getString("phone_number", "Phone Number")
+        val profilePicture = sharedPreferences.getString("profile_picture", "")
+
+        profileBinding.userFullname.text = fullname
+        profileBinding.userEmail.text = email
+        profileBinding.userPhoneNumber.text = phoneNumber
+
+        if (!profilePicture.isNullOrEmpty()) {
+            Glide.with(this).load(profilePicture).into(profileBinding.imgProfile)
+        } else {
+            profileBinding.imgProfile.setImageResource(R.drawable.dummy_profile)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +53,10 @@ class ProfileFragment : Fragment() {
 
         val activity = requireActivity() as MainActivity
         activity.binding.header.visibility = View.GONE
+
+        sharedPreferences = activity.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
+        loadProfileData()
 
         return view
     }
