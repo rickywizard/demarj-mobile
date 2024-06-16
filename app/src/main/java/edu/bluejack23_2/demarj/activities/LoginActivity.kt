@@ -38,11 +38,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginViewModel.loginResult.observe(this, Observer { result ->
-            if (result.isSuccess) {
-                Toast.makeText(this, "Login Successfully", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            } else {
+            if (result.isFailure) {
                 Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
             }
         })
@@ -56,9 +52,15 @@ class LoginActivity : AppCompatActivity() {
         })
 
         loginViewModel.userData.observe(this, Observer { result ->
-            if (result.isFailure) {
+            if (result.isSuccess){
+                Toast.makeText(this, "Login Successfully", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            else if (result.isFailure) {
                 Toast.makeText(this, "Failed to fetch user data: ${result.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
             }
+
         })
     }
 }

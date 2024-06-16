@@ -1,6 +1,7 @@
 package edu.bluejack23_2.demarj.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.R
+import edu.bluejack23_2.demarj.activities.LoginActivity
 import edu.bluejack23_2.demarj.activities.MainActivity
 import edu.bluejack23_2.demarj.databinding.FragmentProfileBinding
 
@@ -44,6 +46,20 @@ class ProfileFragment : Fragment() {
             profileBinding.imgProfile.setImageResource(R.drawable.dummy_profile)
         }
     }
+
+    private fun clearSharedPreferences() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun signOut() {
+        clearSharedPreferences()
+        val intent = Intent(activity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        activity?.finish()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +73,10 @@ class ProfileFragment : Fragment() {
         sharedPreferences = activity.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
         loadProfileData()
+
+        profileBinding.signOutBttn.setOnClickListener{
+            signOut()
+        }
 
         return view
     }
