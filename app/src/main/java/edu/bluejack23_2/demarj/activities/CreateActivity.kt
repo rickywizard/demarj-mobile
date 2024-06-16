@@ -12,5 +12,9 @@ class CreateActivity : AppCompatActivity() {
 
         binding = ActivityCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.createBackBttn.setOnClickListener{
+            onBackPressed()
+        }
     }
 }

@@ -5,8 +5,11 @@ import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.User
 import kotlin.coroutines.resume
@@ -19,6 +22,23 @@ class UserRepository {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
+
+    suspend fun getUserData(userId: String): Result<User> = suspendCoroutine { continuation ->
+        database.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    continuation.resume(Result.success(user))
+                } else {
+                    continuation.resume(Result.failure(Exception("User data not found")))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resume(Result.failure(error.toException()))
+            }
+        })
+    }
 
     suspend fun loginAuth(email: String, password: String): Result<String> = suspendCoroutine { continuation ->
         Log.d("UserRepository", "Attempting to login auth with email: $email")
