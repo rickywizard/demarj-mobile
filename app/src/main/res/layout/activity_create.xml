@@ -93,7 +93,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order name"
+                android:inputType="text"
                 android:layout_marginTop="10dp"
                 />
 
@@ -115,7 +116,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order description"
+                android:inputType="text"
                 android:layout_marginTop="10dp"
                 />
 
@@ -137,20 +139,39 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order price"
+                android:inputType="number"
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
-                android:id="@+id/po_additional_text_create"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/acme"
-                android:text="Additional Price for Large Size"
-                android:textColor="@color/green"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
-                />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/po_additional_text_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/acme"
+                    android:text="Additional Price for Large Size"
+                    android:textColor="@color/green"
+                    android:textSize="20sp"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/po_optional_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/acme"
+                    android:text="(optional)"
+                    android:textColor="@color/green"
+                    android:textSize="12sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="7dp"
+                    />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/po_additional_create"
@@ -159,7 +180,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order large price"
+                android:inputType="number"
                 android:layout_marginTop="10dp"
                 />
 
@@ -168,7 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/acme"
-                android:text="End Pre Order Date"
+                android:text="Pre Order End Date"
                 android:textColor="@color/green"
                 android:textSize="20sp"
                 android:layout_marginTop="20dp"
@@ -181,7 +203,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order end date"
+                android:inputType="date"
                 android:layout_marginTop="10dp"
                 />
 
@@ -203,7 +226,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order ready date"
+                android:inputType="date"
                 android:layout_marginTop="10dp"
                 />
 
@@ -225,7 +249,8 @@
                 android:background="@drawable/text_field_rounded"
                 android:fontFamily="@font/acme"
                 android:paddingLeft="15dp"
-                android:text="test"
+                android:hint="Type your pre order stock"
+                android:inputType="number"
                 android:layout_marginTop="10dp"
                 />
 
