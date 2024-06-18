@@ -13,7 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class PreOrderRepository {
 
-    private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
+    private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("pre_orders")
     private val storage = FirebaseStorage.getInstance().reference
 
     suspend fun uploadPreOrderImg(userId: String, uri: Uri): Result<String> = suspendCoroutine { continuation ->
@@ -33,12 +33,12 @@ class PreOrderRepository {
         }
     }
 
-    suspend fun addPreOrder(po_img: String, po_name: String, po_desc: String, po_price: Int, po_large_price: Int, po_end_date: LocalDate, po_ready_date: LocalDate, po_stock: Int, po_ownerId: String): Result<String> = suspendCoroutine {continuation ->
+    suspend fun addPreOrder(po_img: String, po_name: String, po_desc: String, po_price: Int, po_large_price: Int, po_end_date: String, po_ready_date: String, po_stock: Int, po_ownerId: String): Result<String> = suspendCoroutine {continuation ->
         val poId = database.push().key ?: run {
             continuation.resume(Result.failure(Exception("Failed to generate unique ID")))
             return@suspendCoroutine
         }
-
+        Log.d("PO Repository", poId)
         val po = PreOrder (
             poId = poId,
             po_img = po_img,

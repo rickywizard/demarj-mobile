@@ -10,8 +10,8 @@ data class PreOrder(
     val po_desc: String? = null,
     val po_price: Int? = 0,
     val po_large_price: Int? = 0,
-    val po_end_date: LocalDate? = null,
-    val po_ready_date: LocalDate? = null,
+    val po_end_date: String? = null,
+    val po_ready_date: String? = null,
     val po_stock: Int? = 0,
     val po_ownerId: String? = null
 )
