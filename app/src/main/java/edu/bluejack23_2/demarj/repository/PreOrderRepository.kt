@@ -2,8 +2,11 @@ package edu.bluejack23_2.demarj.repository
 
 import android.net.Uri
 import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.PreOrder
 import edu.bluejack23_2.demarj.model.User
@@ -15,6 +18,33 @@ class PreOrderRepository {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("pre_orders")
     private val storage = FirebaseStorage.getInstance().reference
+
+    suspend fun getPreOrderById(poId: String): Result<PreOrder> = suspendCoroutine { continuation ->
+        database.child(poId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val preOrder = snapshot.getValue(PreOrder::class.java)
+                if (preOrder != null) {
+                    continuation.resume(Result.success(preOrder))
+                } else {
+                    continuation.resume(Result.failure(Exception("PreOrder not found")))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resume(Result.failure(error.toException()))
+            }
+        })
+    }
+
+    suspend fun updatePreOrder(preOrder: PreOrder): Result<String> = suspendCoroutine { continuation ->
+        database.child(preOrder.poId!!).setValue(preOrder).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                continuation.resume(Result.success(preOrder.poId))
+            } else {
+                continuation.resume(Result.failure(task.exception ?: Exception("Unknown error occurred")))
+            }
+        }
+    }
 
     suspend fun uploadPreOrderImg(userId: String, uri: Uri): Result<String> = suspendCoroutine { continuation ->
         Log.d("PreOrderRepository", "Uploading pre order img for userId: $userId, uri: $uri")

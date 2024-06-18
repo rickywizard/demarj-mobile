@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateActivity"
+    android:orientation="vertical"
+    android:padding="40dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/edit_po_back_bttn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/back_bttn"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Pre Order"
+        android:fontFamily="@font/acme"
+        android:textColor="@color/green"
+        android:textSize="35sp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fill pre order information below !"
+        android:fontFamily="@font/acme"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+
+    <ScrollView
+        android:id="@+id/edit_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/photo_preorder_edit"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/black"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageView2"
+                />
+
+            <TextView
+                android:id="@+id/edit_take_preorder_photo_bttn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose Photo"
+                android:textColor="@color/black"
+                android:fontFamily="@font/acme"
+                android:textAlignment="center"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:id="@+id/po_name_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Pre Order Name"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/po_name_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:hint="Type your pre order name"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/po_desc_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Pre Order Description"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/po_desc_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:hint="Type your pre order description"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/po_price_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Pre Order Price"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/po_price_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:hint="Type your pre order price"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/po_additional_text_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/acme"
+                    android:text="Additional Price for Large Size"
+                    android:textColor="@color/green"
+                    android:textSize="20sp"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/po_optional_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/acme"
+                    android:text="(optional)"
+                    android:textColor="@color/green"
+                    android:textSize="12sp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="7dp"
+                    />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/po_additional_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:hint="Type your pre order large price"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/po_end_date_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Pre Order End Date"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/po_end_date_edit"
+                    android:layout_width="270dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/text_field_rounded"
+                    android:fontFamily="@font/acme"
+                    android:paddingLeft="15dp"
+                    android:text="Select your pre order end date"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:id="@+id/create_end_date_picker_edit"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/calendar_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/po_ready_date_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Ready Pre Order Date"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/po_ready_date_edit"
+                    android:layout_width="270dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/text_field_rounded"
+                    android:fontFamily="@font/acme"
+                    android:paddingLeft="15dp"
+                    android:hint="Select your pre order ready date"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:id="@+id/create_ready_date_picker_edit"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/calendar_icon"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/po_stock_text_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="Pre Order Stock"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
+                />
+
+            <EditText
+                android:id="@+id/po_stock_edit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/text_field_rounded"
+                android:fontFamily="@font/acme"
+                android:paddingLeft="15dp"
+                android:hint="Type your pre order stock"
+                android:inputType="number"
+                android:layout_marginTop="10dp"
+                />
+
+            <ImageView
+                android:id="@+id/edit_po_bttn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/edit_po_bttn"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
