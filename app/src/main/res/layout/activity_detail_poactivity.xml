@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DetailPOActivity">
+
+    <ImageView
+        android:id="@+id/detail_po_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/dummy_po_image"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/detail_back_bttn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/back_bttn_green"
+        android:layout_margin="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/detail_po_layout"
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_detail_po"
+        android:layout_below="@id/detail_po_image"
+        android:layout_marginTop="-22dp"
+        >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="25dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/detail_header_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/detail_po_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nasi Bakar"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/green"
+                        android:textSize="25sp"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_po_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 15.000 / unit"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/green"
+                        android:textSize="20sp"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_po_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar odio eros, vitae pulvinar turpis lobortis non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. "
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:layout_marginTop="7dp"
+                    android:justificationMode="inter_word"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/detail_end_date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/detail_po_end_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pre Order End Date : "
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_po_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21/07/2024"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_ready_date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/detail_po_ready_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pre Order Ready Date : "
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_po_ready_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23/07/2024"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/detail_store_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/photo_profile_detail_po"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:src="@drawable/dummy_profpict"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_store_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NJuice"
+                        android:textSize="25sp"
+                        android:layout_marginLeft="15dp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/green"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/large_size_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <CheckBox
+                        android:id="@+id/cb_large_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_large_size_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Large Size   + "
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_large_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 5.000"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="5dp"
+                        />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/detail_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@drawable/text_field_rounded"
+                    android:fontFamily="@font/acme"
+                    android:paddingLeft="15dp"
+                    android:hint="Notes"
+                    android:inputType="phone"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top|start"
+                    android:paddingTop="10dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/purchase_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

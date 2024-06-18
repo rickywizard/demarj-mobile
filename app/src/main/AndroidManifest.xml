@@ -14,6 +14,9 @@
         android:theme="@style/Theme.DEmaRJ"
         tools:targetApi="31">
         <activity
+            android:name=".DetailPOActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdatePOActivity"
             android:exported="false" />
         <activity
