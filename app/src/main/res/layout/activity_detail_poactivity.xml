@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/detail_po_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:src="@drawable/dummy_po_image"
         android:scaleType="centerCrop"
         />
@@ -25,17 +25,18 @@
     <LinearLayout
         android:id="@+id/detail_po_layout"
         android:layout_width="match_parent"
-        android:layout_height="520dp"
+        android:layout_height="620dp"
         android:orientation="vertical"
         android:background="@drawable/rounded_detail_po"
         android:layout_below="@id/detail_po_image"
         android:layout_marginTop="-22dp"
+        android:padding="25dp"
         >
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="25dp">
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,7 +196,7 @@
                         android:textSize="17sp"
                         android:fontFamily="@font/acme"
                         android:textColor="@color/black"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="1dp"
                         />
 
                     <TextView
@@ -207,6 +208,42 @@
                         android:fontFamily="@font/acme"
                         android:textColor="@color/black"
                         android:layout_marginLeft="5dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_margin="15dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/minus_bttn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/minus_bttn"
+                        />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/text_field_really_rounded"
+                        android:text="10"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:fontFamily="@font/acme"
+                        android:layout_marginHorizontal="10dp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/plus_bttn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/plus_bttn"
                         />
 
                 </LinearLayout>
@@ -226,11 +263,33 @@
                     />
 
                 <LinearLayout
-                    android:id="@+id/purchase_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/green_rounded_bttn"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="30dp"
+                    >
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 20.000"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/acme"
+                        android:textSize="25sp"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/acme"
+                        android:textSize="20sp"
+                        />
 
                 </LinearLayout>
 
