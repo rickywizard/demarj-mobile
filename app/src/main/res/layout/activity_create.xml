@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.CreateActivity"
-    android:orientation="vertical"
-    android:padding="40dp"
-    >
+    android:padding="20dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
             android:id="@+id/create_back_bttn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/back_bttn"
+            android:src="@drawable/icon_arrow"
             />
     </LinearLayout>
 
@@ -30,7 +29,6 @@
         android:textColor="@color/green"
         android:textSize="35sp"
         android:textAlignment="center"
-        android:layout_marginTop="20dp"
         />
 
     <TextView
@@ -46,7 +44,7 @@
     <ScrollView
         android:id="@+id/create_scroll"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         >
 
@@ -200,28 +198,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="10dp"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/po_end_date_create"
-                    android:layout_width="270dp"
+                    android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/text_field_rounded"
                     android:fontFamily="@font/acme"
-                    android:paddingLeft="15dp"
+                    android:padding="15dp"
                     android:text="Select your pre order end date"
                     android:textSize="18sp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
+                    android:layout_weight="2"
                     />
+
 
                 <ImageView
                     android:id="@+id/create_end_date_picker"
-                    android:layout_width="35dp"
+                    android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:src="@drawable/calendar_icon"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_weight="16"
                     />
 
             </LinearLayout>
@@ -241,28 +239,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="10dp"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/po_ready_date_create"
-                    android:layout_width="270dp"
+                    android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/text_field_rounded"
                     android:fontFamily="@font/acme"
-                    android:paddingLeft="15dp"
+                    android:padding="15dp"
                     android:hint="Select your pre order ready date"
                     android:textSize="18sp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
+                    android:layout_weight="2"
                     />
 
                 <ImageView
                     android:id="@+id/create_ready_date_picker"
-                    android:layout_width="35dp"
+                    android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:src="@drawable/calendar_icon"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_weight="16"
                     />
 
             </LinearLayout>
@@ -290,13 +287,16 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <ImageView
+            <Button
                 android:id="@+id/create_bttn"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/create_bttn"
-                />
+                android:fontFamily="@font/acme"
+                android:textSize="20sp"
+                android:textAllCaps="false"
+                android:background="@drawable/background_custom_button"
+                android:text="Create" />
 
         </LinearLayout>
 

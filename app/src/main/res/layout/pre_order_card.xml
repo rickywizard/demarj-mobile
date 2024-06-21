@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardPreOrder"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="0dp"
+    android:layout_marginVertical="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_pre_order_card">
+        
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgPreOrder"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            android:src="@drawable/dummy_po_image"
+            android:contentDescription="@string/alt"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:paddingVertical="4dp"
+            android:layout_toEndOf="@id/imgPreOrder">
+
+            <TextView
+                android:id="@+id/tvStoreName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="@string/store_name"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tvPOName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="@string/po_name"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/tvPOPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/acme"
+                android:text="@string/po_price"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/tvPOEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:fontFamily="@font/acme"
+                android:text="@string/end_date"
+                android:textColor="@color/black"
+                />
+
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

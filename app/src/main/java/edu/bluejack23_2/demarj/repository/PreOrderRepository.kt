@@ -9,14 +9,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.PreOrder
-import edu.bluejack23_2.demarj.model.User
-import java.time.LocalDate
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class PreOrderRepository {
 
     private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("pre_orders")
+    private val usersDatabase: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
     suspend fun getPreOrderById(poId: String): Result<PreOrder> = suspendCoroutine { continuation ->
@@ -91,5 +90,47 @@ class PreOrderRepository {
                 continuation.resume(Result.failure(task.exception ?: Exception("Unknown error occurred")))
             }
         }
+    }
+
+    suspend fun getAllPreOrder(): Result<List<PreOrder>> = suspendCoroutine { continuation ->
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val preOrders = mutableListOf<PreOrder>()
+
+                for (data in snapshot.children) {
+                    val preOrder = data.getValue(PreOrder::class.java)
+
+                    if (preOrder != null) {
+                        preOrders.add(preOrder)
+                    }
+                }
+
+                continuation.resume(Result.success(preOrders))
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resume(Result.failure(error.toException()))
+            }
+
+        })
+    }
+
+    suspend fun getStoreNameByOwnerId(ownerId: String): Result<String> = suspendCoroutine { continuation ->
+        usersDatabase.child(ownerId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val storeName = snapshot.child("store_name").getValue(String::class.java)
+                if (storeName != null) {
+                    continuation.resume(Result.success(storeName))
+                } else {
+                    continuation.resume(Result.failure(Exception("Store name not found")))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                continuation.resume(Result.failure(error.toException()))
+            }
+        })
     }
 }
