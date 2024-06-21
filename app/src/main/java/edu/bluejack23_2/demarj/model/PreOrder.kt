@@ -1,8 +1,10 @@
 package edu.bluejack23_2.demarj.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
-
+@Parcelize
 data class PreOrder(
     val poId: String? = null,
     val po_img: String? = null,
@@ -14,4 +16,4 @@ data class PreOrder(
     val po_ready_date: String? = null,
     val po_stock: Int? = 0,
     val po_ownerId: String? = null
-)
+) : Parcelable

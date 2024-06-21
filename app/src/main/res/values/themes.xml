@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.DEmaRJ" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/green</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -22,5 +22,14 @@
     <style name="roundedImageView2">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="Widget.App.ButtonStyle"
+        parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/WhiteButtonThemeOverlay</item>
+    </style>
+
+    <style name="WhiteButtonThemeOverlay">
+        <item name="colorPrimary">@color/white</item>
     </style>
 </resources>

@@ -93,16 +93,19 @@
         app:layout_constraintTop_toBottomOf="@id/password_text_login"
         />
 
-    <ImageView
+    <Button
         android:id="@+id/login_bttn"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:src="@drawable/login_bttn"
+        android:fontFamily="@font/acme"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:background="@drawable/background_custom_button"
+        android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_login"
-        />
+        app:layout_constraintTop_toBottomOf="@id/password_login" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,22 +124,24 @@
             android:id="@+id/to_register_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
             android:fontFamily="@font/acme"
             android:text="Don't have an account ?"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
+        <View
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+
         <TextView
             android:id="@+id/to_register_bttn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="10dp"
             android:fontFamily="@font/acme"
             android:text="Register"
             android:textColor="@color/green"
             android:textSize="20sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
