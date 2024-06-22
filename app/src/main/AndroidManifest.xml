@@ -9,6 +9,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:label="@string/app_name"
+        android:icon="@drawable/icon_apps"
         android:roundIcon="@drawable/icon_apps"
         android:supportsRtl="true"
         android:theme="@style/Theme.DEmaRJ"
