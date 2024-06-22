@@ -1,20 +1,18 @@
 package edu.bluejack23_2.demarj.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.bluejack23_2.demarj.R
+import edu.bluejack23_2.demarj.activities.DetailPOActivity
 import edu.bluejack23_2.demarj.activities.MainActivity
 import edu.bluejack23_2.demarj.adapter.ListPreOrderAdapter
 import edu.bluejack23_2.demarj.databinding.FragmentHomeBinding
-import edu.bluejack23_2.demarj.factory.PreOrderViewModelFactory
-import edu.bluejack23_2.demarj.repository.PreOrderRepository
+import edu.bluejack23_2.demarj.model.PreOrderWithStore
 import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,48 +46,29 @@ class HomeFragment : Fragment() {
 
         homeBinding.loadingBar.visibility = View.VISIBLE
 
-        // Initialize Repository
-        val repository = PreOrderRepository()
-
-        // Initialize ViewModel
-        val viewModelFactory = PreOrderViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(PreOrderViewModel::class.java)
-
-        // Setup RecyclerView and Adapter
-        setupRecyclerView()
-
-        // Fetch data and observe
-        observePreOrders()
-
         return view
     }
 
-    private fun setupRecyclerView() {
-        adapter = ListPreOrderAdapter(arrayListOf())
-        homeBinding.rvPreOrder.adapter = adapter
-        homeBinding.rvPreOrder.layoutManager = LinearLayoutManager(context)
-        homeBinding.rvPreOrder.setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this).get(PreOrderViewModel::class.java)
 
-    }
+        viewModel.preOrdersWithStore.observe(viewLifecycleOwner) { preOrdersWithStore ->
+            adapter = ListPreOrderAdapter(preOrdersWithStore)
+            homeBinding.rvPreOrder.adapter = adapter
+            homeBinding.rvPreOrder.layoutManager = LinearLayoutManager(context)
+            homeBinding.rvPreOrder.setHasFixedSize(true)
+            homeBinding.loadingBar.visibility = View.GONE
 
-    private fun observePreOrders() {
-        viewModel.preOrders.observe(viewLifecycleOwner, Observer { preOrders ->
-            preOrders?.let {
-                Log.d("HomeFragment", "PreOrders received: $it")
-                adapter.updateData(it)
-            }
-        })
-
-        viewModel.storeNames.observe(viewLifecycleOwner, Observer { storeNames ->
-            storeNames?.let {
-                adapter.updateStoreNames(it)
-            }
-        })
-
-        homeBinding.loadingBar.visibility = View.GONE
-
-        viewModel.fetchAllPreOrders()
+            adapter.setOnItemClickCallback(object : ListPreOrderAdapter.IOnPreOrderClickCallback {
+                override fun onPreOrderClicked(data: PreOrderWithStore) {
+                    val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
+                    intentToDetail.putExtra("DATA", data)
+                    startActivity(intentToDetail)
+                }
+            })
+        }
     }
 
     override fun onDestroyView() {

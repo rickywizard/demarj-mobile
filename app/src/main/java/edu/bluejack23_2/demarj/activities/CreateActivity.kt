@@ -31,7 +31,7 @@ class CreateActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.createBackBttn.setOnClickListener{
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)

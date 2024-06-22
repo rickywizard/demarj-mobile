@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         binding.toRegisterBttn.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.loginBttn.setOnClickListener{
@@ -56,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login Successfully", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             else if (result.isFailure) {
                 Toast.makeText(this, "Failed to fetch user data: ${result.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
