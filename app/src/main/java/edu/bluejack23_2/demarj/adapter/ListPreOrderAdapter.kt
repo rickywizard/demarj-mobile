@@ -1,17 +1,23 @@
 package edu.bluejack23_2.demarj.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import edu.bluejack23_2.demarj.R
 import edu.bluejack23_2.demarj.databinding.PreOrderCardBinding
-import edu.bluejack23_2.demarj.model.PreOrder
+import edu.bluejack23_2.demarj.model.PreOrderWithStore
 
-class ListPreOrderAdapter(private val listPreOrder: ArrayList<PreOrder>): RecyclerView.Adapter<ListPreOrderAdapter.ListViewHolder>() {
-    private var storeNames: Map<String, String> = emptyMap()
+class ListPreOrderAdapter(private val listPreOrderWithStore: List<PreOrderWithStore>): RecyclerView.Adapter<ListPreOrderAdapter.ListViewHolder>() {
+
+    interface IOnPreOrderClickCallback {
+        fun onPreOrderClicked(data: PreOrderWithStore)
+    }
+
+    private lateinit var onItemClickCallback: IOnPreOrderClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: IOnPreOrderClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     inner class ListViewHolder(val binding: PreOrderCardBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -21,33 +27,26 @@ class ListPreOrderAdapter(private val listPreOrder: ArrayList<PreOrder>): Recycl
         return ListViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = listPreOrder.size
+    override fun getItemCount(): Int = listPreOrderWithStore.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         with(holder) {
-            with(listPreOrder[position]) {
+            with(listPreOrderWithStore[position]) {
                 Glide.with(holder.itemView.context)
-                    .load(this.po_img)
+                    .load(this.preOrder.po_img)
                     .into(binding.imgPreOrder)
-                binding.tvStoreName.text = storeNames[this.po_ownerId] ?: "Unknown Store"
-                binding.tvPOName.text = this.po_name
-                binding.tvPOPrice.text = this.po_price.toString()
-                binding.tvPOEndDate.text = this.po_end_date
+                binding.tvStoreName.text = this.store.store_name
+                binding.tvPOName.text = this.preOrder.po_name
+                binding.tvPOPrice.text = this.preOrder.po_price.toString()
+                binding.tvPOEndDate.text = this.preOrder.po_end_date
             }
         }
 
-        Log.d("AdapterBinding", "Binding data at position $position: $this")
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onPreOrderClicked(listPreOrderWithStore[holder.adapterPosition])
+        }
+
+//        Log.d("AdapterBinding", "Binding data at position $position: $this")
     }
 
-    fun updateData(newListPreOrder: List<PreOrder>) {
-        Log.d("AdapterUpdate", "Updating data: $newListPreOrder")
-        listPreOrder.clear()
-        listPreOrder.addAll(newListPreOrder)
-        notifyDataSetChanged()
-    }
-
-    fun updateStoreNames(newStoreNames: Map<String, String>) {
-        storeNames = newStoreNames
-        notifyDataSetChanged()
-    }
 }

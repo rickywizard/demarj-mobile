@@ -14,10 +14,10 @@
         android:theme="@style/Theme.DEmaRJ"
         tools:targetApi="31">
         <activity
-            android:name=".DetailPOActivity"
+            android:name=".activities.DetailPOActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdatePOActivity"
+            android:name=".activities.UpdatePOActivity"
             android:exported="false" />
         <activity
             android:name=".activities.CreateActivity"

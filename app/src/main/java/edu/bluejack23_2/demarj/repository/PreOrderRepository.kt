@@ -2,6 +2,8 @@ package edu.bluejack23_2.demarj.repository
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -9,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.PreOrder
+import edu.bluejack23_2.demarj.model.PreOrderWithStore
+import edu.bluejack23_2.demarj.model.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -92,45 +96,52 @@ class PreOrderRepository {
         }
     }
 
-    suspend fun getAllPreOrder(): Result<List<PreOrder>> = suspendCoroutine { continuation ->
+    fun getAllPreOrders(): LiveData<List<PreOrderWithStore>> {
+        val liveData = MutableLiveData<List<PreOrderWithStore>>()
+
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                val preOrderList = mutableListOf<PreOrder>()
 
-                val preOrders = mutableListOf<PreOrder>()
-
-                for (data in snapshot.children) {
-                    val preOrder = data.getValue(PreOrder::class.java)
-
-                    if (preOrder != null) {
-                        preOrders.add(preOrder)
+                snapshot.children.forEach {
+                    val preOrder = it.getValue(PreOrder::class.java)
+                    preOrder?.let {
+                        preOrderList.add(preOrder)
                     }
                 }
 
-                continuation.resume(Result.success(preOrders))
-
+                getStoreNames(preOrderList, liveData)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                continuation.resume(Result.failure(error.toException()))
+                Log.e("ERR", "onCancelled: $error")
             }
-
         })
+
+        return liveData
     }
 
-    suspend fun getStoreNameByOwnerId(ownerId: String): Result<String> = suspendCoroutine { continuation ->
-        usersDatabase.child(ownerId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val storeName = snapshot.child("store_name").getValue(String::class.java)
-                if (storeName != null) {
-                    continuation.resume(Result.success(storeName))
-                } else {
-                    continuation.resume(Result.failure(Exception("Store name not found")))
-                }
-            }
+    private fun getStoreNames(preOrderList: List<PreOrder>, liveData: MutableLiveData<List<PreOrderWithStore>>) {
+        val preOrderWithStoreList = mutableListOf<PreOrderWithStore>()
 
-            override fun onCancelled(error: DatabaseError) {
-                continuation.resume(Result.failure(error.toException()))
-            }
-        })
+        preOrderList.forEach { preOrder ->
+            usersDatabase.child(preOrder.po_ownerId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val store = snapshot.getValue(User::class.java)
+                    val preOrderWithStore = PreOrderWithStore(preOrder, store!!)
+
+                    preOrderWithStoreList.add(preOrderWithStore)
+
+                    if (preOrderWithStoreList.size == preOrderList.size) {
+                        liveData.value = preOrderWithStoreList
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("ERR", "onCancelledStoreId: $error")
+                }
+
+            })
+        }
     }
 }

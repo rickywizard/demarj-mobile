@@ -37,6 +37,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.toLoginBttn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val galeryImage = registerForActivityResult(
@@ -90,6 +91,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Registration Successfully", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT).show()
             }
