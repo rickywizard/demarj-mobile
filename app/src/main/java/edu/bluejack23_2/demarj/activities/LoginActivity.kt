@@ -80,6 +80,9 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }
+                    else{
+                        Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 onFailure = { throwable ->
                     Toast.makeText(this, "Biometric authentication failed: ${throwable.message}", Toast.LENGTH_SHORT).show()

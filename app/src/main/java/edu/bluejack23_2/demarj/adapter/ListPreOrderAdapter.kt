@@ -6,9 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.databinding.PreOrderCardBinding
 import edu.bluejack23_2.demarj.model.PreOrderWithStore
+import java.text.NumberFormat
+import java.util.Locale
 
 class ListPreOrderAdapter(private val listPreOrderWithStore: List<PreOrderWithStore>): RecyclerView.Adapter<ListPreOrderAdapter.ListViewHolder>() {
 
+    fun formatToRupiah(amount: Int): String {
+        val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+        return format.format(amount).replace("Rp", "Rp ").replace(",00", "")
+    }
     interface IOnPreOrderClickCallback {
         fun onPreOrderClicked(data: PreOrderWithStore)
     }
@@ -37,7 +43,7 @@ class ListPreOrderAdapter(private val listPreOrderWithStore: List<PreOrderWithSt
                     .into(binding.imgPreOrder)
                 binding.tvStoreName.text = this.store.store_name
                 binding.tvPOName.text = this.preOrder.po_name
-                binding.tvPOPrice.text = this.preOrder.po_price.toString()
+                binding.tvPOPrice.text = formatToRupiah(this.preOrder.po_price!!)
                 binding.tvPOEndDate.text = this.preOrder.po_end_date
             }
         }

@@ -15,6 +15,7 @@ import java.time.format.DateTimeParseException
 class AddPreOrderViewModel : ViewModel() {
 
     private val preOrderRepository = PreOrderRepository()
+    private val notificationViewModel = NotificationViewModel()
     private lateinit var sharedPreferences: SharedPreferences
 
     private val _preOrderResult = MutableLiveData<Result<String>>()
@@ -103,6 +104,13 @@ class AddPreOrderViewModel : ViewModel() {
 
             val preOrderResult = preOrderRepository.addPreOrder(poImgUrl, po_name, po_desc, po_price, po_large_price, po_end_date, po_ready_date, po_stock, userId)
             _preOrderResult.postValue(preOrderResult)
+
+            if (preOrderResult.isSuccess) {
+                val preOrderId = preOrderResult.getOrNull()
+                preOrderId?.let {
+                    notificationViewModel.addNotification(userId, it)
+                }
+            }
         }
     }
 
