@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val role = sharedPreferences.getString("role", "")
 
-        Log.d("USER", "Role: $role")
+//        Log.d("USER", "Role: $role")
 
         if(role.equals("User")){
             binding.botNav.menu.findItem(R.id.notificationMenu).isVisible = true
@@ -39,9 +39,11 @@ class MainActivity : AppCompatActivity() {
         binding.botNav.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.homeMenu -> {
+                    binding.botNav.menu.findItem(R.id.homeMenu).isChecked = true
                     replaceFragment(HomeFragment())
                 }
                 R.id.notificationMenu -> {
+                    binding.botNav.menu.findItem(R.id.notificationMenu).isChecked = true
                     replaceFragment(NotificationFragment())
                 }
                 R.id.createMenu -> {
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 R.id.profileMenu -> {
+                    binding.botNav.menu.findItem(R.id.profileMenu).isChecked = true
                     replaceFragment(ProfileFragment())
                 }
             }

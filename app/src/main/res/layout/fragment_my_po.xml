@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    tools:context=".fragments.HomeFragment">
+    android:layout_gravity="center"
+    tools:context=".fragments.MyPOFragment">
 
     <ProgressBar
         android:id="@+id/loadingBar"
@@ -17,11 +18,10 @@
         android:indeterminate="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPreOrder"
+        android:id="@+id/rvMyPO"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="15dp"/>
 
 </FrameLayout>

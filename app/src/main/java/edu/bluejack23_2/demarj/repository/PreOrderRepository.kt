@@ -22,23 +22,6 @@ class PreOrderRepository {
     private val usersDatabase: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
-    suspend fun getPreOrderById(poId: String): Result<PreOrder> = suspendCoroutine { continuation ->
-        database.child(poId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val preOrder = snapshot.getValue(PreOrder::class.java)
-                if (preOrder != null) {
-                    continuation.resume(Result.success(preOrder))
-                } else {
-                    continuation.resume(Result.failure(Exception("PreOrder not found")))
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                continuation.resume(Result.failure(error.toException()))
-            }
-        })
-    }
-
     suspend fun updatePreOrder(preOrder: PreOrder): Result<String> = suspendCoroutine { continuation ->
         database.child(preOrder.poId!!).setValue(preOrder).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -143,5 +126,34 @@ class PreOrderRepository {
 
             })
         }
+    }
+
+    fun getPreOrderById(storeId: String): LiveData<List<PreOrder>> {
+        val liveData = MutableLiveData<List<PreOrder>>()
+
+        database.orderByChild("po_ownerId").equalTo(storeId).addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val preOrderList = mutableListOf<PreOrder>()
+
+                snapshot.children.forEach {
+                    val preOrder = it.getValue(PreOrder::class.java)
+                    preOrder?.let {
+                        preOrderList.add(preOrder)
+                    }
+
+                    liveData.value = preOrderList
+                }
+
+//                Log.d("PObySTORE", "onDataChange: $preOrderList")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ERR", "onCancelledMyPO: $error")
+            }
+
+        })
+
+        return liveData
     }
 }
