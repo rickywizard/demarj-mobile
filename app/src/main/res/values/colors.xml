@@ -10,4 +10,6 @@
     <color name="green">#307563</color>
     <color name="light_green">#DDFFF6</color>
     <color name="medium_green">#4CB499</color>
+    <color name="green_start">#1E473C</color>
+    <color name="green_end">#5ADBB9</color>
 </resources>

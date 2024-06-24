@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,7 @@ class ProfileFragment : Fragment() {
         startActivity(intent)
         activity?.finish()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +80,27 @@ class ProfileFragment : Fragment() {
             signOut()
         }
 
+        // Role Validation
+        val role = sharedPreferences.getString("role", null)
+        Log.d("ROLE", "onCreateView: $role")
+        val storeName = sharedPreferences.getString("store_name", null)
+
+        if (role.equals("User")) {
+            profileBinding.tvSectionTitle.text = "History"
+            replaceFragment(HistoryFragment())
+        }
+        else if (role.equals("Store Owner")) {
+            profileBinding.tvSectionTitle.text = storeName
+            replaceFragment(MyPOFragment())
+        }
+
         return view
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.sectionContainer, fragment)
+        fragmentTransaction.commit()
     }
 
     override fun onDestroyView() {

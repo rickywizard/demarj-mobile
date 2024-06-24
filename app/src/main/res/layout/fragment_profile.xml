@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/green"
+    android:background="@android:color/transparent"
     tools:context=".fragments.ProfileFragment">
 
-    <ProgressBar
-        android:id="@+id/loadingBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateDrawable="@drawable/maskot_rotate"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
+<!--    <ProgressBar-->
+<!--        android:id="@+id/loadingBar"-->
+<!--        style="?android:attr/progressBarStyleLarge"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:indeterminateDrawable="@drawable/maskot_rotate"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:indeterminate="true" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -108,7 +108,8 @@
             android:id="@+id/tvSectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/acme"
             android:text="@string/section_title"
             android:textAlignment="center"
