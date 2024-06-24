@@ -1,6 +1,8 @@
 package edu.bluejack23_2.demarj.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -11,11 +13,13 @@ import edu.bluejack23_2.demarj.R
 import edu.bluejack23_2.demarj.databinding.ActivityLoginBinding
 import edu.bluejack23_2.demarj.factory.LoginViewModelFactory
 import edu.bluejack23_2.demarj.viewmodel.LoginViewModel
+import java.util.concurrent.Executor
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -64,5 +68,31 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+
+        loginViewModel.biometricAuthResult.observe(this, Observer { result ->
+            result.fold(
+                onSuccess = {
+                    Toast.makeText(this, "Biometric authentication successful", Toast.LENGTH_SHORT).show()
+                    sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    val loggedIn = sharedPreferences.getString("email", null)
+                    if (loggedIn != null) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                },
+                onFailure = { throwable ->
+                    Toast.makeText(this, "Biometric authentication failed: ${throwable.message}", Toast.LENGTH_SHORT).show()
+                }
+            )
+        })
+
+        binding.fingerprintLogin.setOnClickListener {
+            if (loginViewModel.canAuthenticateWithBiometrics()) {
+                loginViewModel.initBiometricPrompt()
+            } else {
+                Toast.makeText(this, "Biometric authentication is not available", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

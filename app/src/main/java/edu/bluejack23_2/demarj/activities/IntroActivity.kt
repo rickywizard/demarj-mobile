@@ -23,11 +23,11 @@ class IntroActivity : AppCompatActivity() {
 
         val loggedIn = sharedPreferences.getString("email", null)
 
-        if (loggedIn != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        if (loggedIn != null) {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
 
         binding.getStartedBttn.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)

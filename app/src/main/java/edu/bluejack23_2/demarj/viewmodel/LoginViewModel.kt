@@ -2,6 +2,10 @@ package edu.bluejack23_2.demarj.viewmodel
 
 import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import edu.bluejack23_2.demarj.model.User
 import edu.bluejack23_2.demarj.repositories.UserRepository
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executor
 
 class LoginViewModel(private val context: Context) : ViewModel() {
 
@@ -22,6 +27,46 @@ class LoginViewModel(private val context: Context) : ViewModel() {
 
     private val _userData = MutableLiveData<Result<User>>()
     val userData: LiveData<Result<User>> get() = _userData
+
+    private val _biometricPromptInfo = MutableLiveData<BiometricPrompt.PromptInfo>()
+    val biometricPromptInfo: LiveData<BiometricPrompt.PromptInfo> get() = _biometricPromptInfo
+
+    private val _biometricAuthResult = MutableLiveData<Result<Boolean>>()
+    val biometricAuthResult: LiveData<Result<Boolean>> get() = _biometricAuthResult
+
+    fun initBiometricPrompt() {
+        val executor: Executor = ContextCompat.getMainExecutor(context)
+        val biometricPrompt = BiometricPrompt(context as AppCompatActivity, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                _biometricAuthResult.value = Result.failure(Throwable(errString.toString()))
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                _biometricAuthResult.value = Result.success(true)
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                _biometricAuthResult.value = Result.failure(Throwable("Authentication failed"))
+            }
+        })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric login for My App")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Use account password")
+            .build()
+
+        _biometricPromptInfo.value = promptInfo
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    fun canAuthenticateWithBiometrics(): Boolean {
+        val biometricManager = BiometricManager.from(context)
+        return biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+    }
 
     private fun isValidEmail(email: String): Boolean {
         val emailPattern = "^[A-Za-z0-9._%+-]+@gmail\\.com$"
