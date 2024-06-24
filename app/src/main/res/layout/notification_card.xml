@@ -9,12 +9,11 @@
     app:cardCornerRadius="0dp"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="horizontal"
-        android:background="@color/green"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:background="@drawable/background_notification"
         >
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -25,12 +24,15 @@
             android:src="@drawable/dummy_profpict"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundedImageView"
+            android:layout_marginLeft="10dp"
             />
 
         <LinearLayout
+            android:id="@+id/desc_notif_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_toEndOf="@+id/photo_store_notif"
             android:layout_marginLeft="10dp">
 
             <TextView
@@ -64,6 +66,19 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/notif_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acme"
+            android:textAlignment="textEnd"
+            android:layout_marginEnd="35dp"
+            android:text="24 Juni 2024 15.20"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/desc_notif_layout"
+            android:textSize="10sp"
+            />
+
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>
