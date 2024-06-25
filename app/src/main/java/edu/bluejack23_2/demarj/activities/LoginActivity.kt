@@ -92,7 +92,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.fingerprintLogin.setOnClickListener {
             if (loginViewModel.canAuthenticateWithBiometrics()) {
-                loginViewModel.initBiometricPrompt()
+                loginViewModel.initBiometricPrompt(this)
             } else {
                 Toast.makeText(this, "Biometric authentication is not available", Toast.LENGTH_SHORT).show()
             }

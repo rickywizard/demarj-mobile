@@ -34,9 +34,9 @@ class LoginViewModel(private val context: Context) : ViewModel() {
     private val _biometricAuthResult = MutableLiveData<Result<Boolean>>()
     val biometricAuthResult: LiveData<Result<Boolean>> get() = _biometricAuthResult
 
-    fun initBiometricPrompt() {
+    fun initBiometricPrompt(activity: AppCompatActivity) {
         val executor: Executor = ContextCompat.getMainExecutor(context)
-        val biometricPrompt = BiometricPrompt(context as AppCompatActivity, executor, object : BiometricPrompt.AuthenticationCallback() {
+        val biometricPrompt = BiometricPrompt(activity, executor, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
                 _biometricAuthResult.value = Result.failure(Throwable(errString.toString()))

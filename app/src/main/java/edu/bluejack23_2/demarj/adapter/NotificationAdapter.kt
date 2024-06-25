@@ -5,26 +5,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.databinding.NotificationCardBinding
-import edu.bluejack23_2.demarj.databinding.PreOrderCardBinding
-import edu.bluejack23_2.demarj.model.NotifWithPOWithStore
 import edu.bluejack23_2.demarj.model.PreOrderWithStore
 import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-class NotificationAdapter(private val listNotifWithPO: List<NotifWithPOWithStore>): RecyclerView.Adapter<NotificationAdapter.ListViewHolder>() {
+class NotificationAdapter(private val listNotifWithPO: List<PreOrderWithStore>): RecyclerView.Adapter<NotificationAdapter.ListViewHolder>() {
 
     fun formatToRupiah(amount: Int): String {
         val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
         return format.format(amount).replace("Rp", "Rp ").replace(",00", "")
     }
 
-    interface IOnPreOrderClickCallback {
-        fun onPreOrderClicked(data: NotifWithPOWithStore)
+    fun formatDate(date: String): String {
+        val dateTime = LocalDateTime.parse(date)
+        val outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh.mm a")
+        return dateTime.format(outputFormatter)
     }
 
-    private lateinit var onItemClickCallback: IOnPreOrderClickCallback
+    interface IOnNotifClickCallback {
+        fun onPreOrderClicked(data: PreOrderWithStore)
+    }
 
-    fun setOnItemClickCallback(onItemClickCallback: IOnPreOrderClickCallback) {
+    private lateinit var onItemClickCallback: IOnNotifClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: IOnNotifClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
@@ -42,12 +48,12 @@ class NotificationAdapter(private val listNotifWithPO: List<NotifWithPOWithStore
         with(holder) {
             with(listNotifWithPO[position]) {
                 com.bumptech.glide.Glide.with(holder.itemView.context)
-                    .load(this.po_with_store.store.profile_picture)
+                    .load(this.store.profile_picture)
                     .into(binding.photoStoreNotif)
-                binding.storeNameNotif.text = this.po_with_store.store.store_name
-                binding.poNameNotif.text = this.po_with_store.preOrder.po_name
-                binding.poPriceNotif.text = formatToRupiah(this.po_with_store.preOrder.po_price!!)
-                binding.notifTime.text = this.notif.notifTime
+                binding.storeNameNotif.text = this.store.store_name
+                binding.poNameNotif.text = this.preOrder.po_name
+                binding.poPriceNotif.text = formatToRupiah(this.preOrder.po_price!!)
+                binding.notifTime.text = formatDate(this.preOrder.po_created_at!!)
             }
         }
 

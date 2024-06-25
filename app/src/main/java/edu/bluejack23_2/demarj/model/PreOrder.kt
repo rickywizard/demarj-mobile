@@ -15,5 +15,6 @@ data class PreOrder(
     val po_end_date: String? = null,
     val po_ready_date: String? = null,
     val po_stock: Int? = 0,
-    val po_ownerId: String? = null
+    val po_ownerId: String? = null,
+    val po_created_at: String? = null
 ) : Parcelable

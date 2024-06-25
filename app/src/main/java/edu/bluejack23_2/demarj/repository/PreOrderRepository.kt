@@ -13,6 +13,9 @@ import com.google.firebase.storage.FirebaseStorage
 import edu.bluejack23_2.demarj.model.PreOrder
 import edu.bluejack23_2.demarj.model.PreOrderWithStore
 import edu.bluejack23_2.demarj.model.User
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -55,6 +58,9 @@ class PreOrderRepository {
             return@suspendCoroutine
         }
         Log.d("PO Repository", poId)
+        val currentDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        val date_time_string = currentDateTime.toString()
+        Log.d("Time PO Repository", date_time_string)
         val po = PreOrder (
             poId = poId,
             po_img = po_img,
@@ -65,7 +71,8 @@ class PreOrderRepository {
             po_end_date = po_end_date,
             po_ready_date = po_ready_date,
             po_stock = po_stock,
-            po_ownerId = po_ownerId
+            po_ownerId = po_ownerId,
+            po_created_at = date_time_string
                 )
 
         database.child(poId).setValue(po).addOnCompleteListener { task ->

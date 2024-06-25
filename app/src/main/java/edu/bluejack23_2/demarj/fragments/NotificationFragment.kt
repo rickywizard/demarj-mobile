@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.bluejack23_2.demarj.R
 import edu.bluejack23_2.demarj.activities.DetailPOActivity
 import edu.bluejack23_2.demarj.activities.MainActivity
 import edu.bluejack23_2.demarj.adapter.ListPreOrderAdapter
 import edu.bluejack23_2.demarj.adapter.NotificationAdapter
-import edu.bluejack23_2.demarj.databinding.FragmentHomeBinding
 import edu.bluejack23_2.demarj.databinding.FragmentNotificationBinding
 import edu.bluejack23_2.demarj.model.PreOrderWithStore
-import edu.bluejack23_2.demarj.viewmodel.NotificationViewModel
 import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,7 +30,7 @@ class NotificationFragment : Fragment() {
 
     private var _notificationBinding: FragmentNotificationBinding? = null
     private val notificationBinding get() = _notificationBinding!!
-    private lateinit var viewModel: NotificationViewModel
+    private lateinit var viewModel: PreOrderViewModel
     private lateinit var adapter: NotificationAdapter
 
     override fun onCreateView(
@@ -54,16 +51,16 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(NotificationViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PreOrderViewModel::class.java)
 
-        viewModel.notifResult.observe(viewLifecycleOwner) { notif ->
-            adapter = List(preOrdersWithStore)
-            homeBinding.rvPreOrder.adapter = adapter
-            homeBinding.rvPreOrder.layoutManager = LinearLayoutManager(context)
-            homeBinding.rvPreOrder.setHasFixedSize(true)
-            homeBinding.loadingBar.visibility = View.GONE
+        viewModel.preOrdersWithStore.observe(viewLifecycleOwner) { notif ->
+            adapter = NotificationAdapter(notif)
+            notificationBinding.rvNotification.adapter = adapter
+            notificationBinding.rvNotification.layoutManager = LinearLayoutManager(context)
+            notificationBinding.rvNotification.setHasFixedSize(true)
+            notificationBinding.loadingBar.visibility = View.GONE
 
-            adapter.setOnItemClickCallback(object : ListPreOrderAdapter.IOnPreOrderClickCallback {
+            adapter.setOnItemClickCallback(object : NotificationAdapter.IOnNotifClickCallback {
                 override fun onPreOrderClicked(data: PreOrderWithStore) {
                     val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
                     intentToDetail.putExtra("DATA", data)
