@@ -145,6 +145,36 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/detail_stock_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/detail_po_stock_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stock : "
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/black"
+                        />
+
+                    <TextView
+                        android:id="@+id/detail_po_stock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/acme"
+                        android:textColor="@color/green"
+                        android:layout_marginStart="5dp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/detail_store_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,7 +215,6 @@
                         android:id="@+id/cb_large_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         />
 
                     <TextView
@@ -228,10 +257,11 @@
                         />
 
                     <TextView
+                        android:id="@+id/tvQuantity"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/text_field_really_rounded"
-                        android:text="10"
+                        android:text="1"
                         android:textAlignment="center"
                         android:gravity="center"
                         android:textSize="22sp"
@@ -256,13 +286,14 @@
                     android:fontFamily="@font/acme"
                     android:paddingStart="15dp"
                     android:hint="Notes"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:layout_marginTop="10dp"
                     android:gravity="top|start"
                     android:paddingTop="10dp"
                     />
 
                 <LinearLayout
+                    android:id="@+id/btnOrder"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:orientation="horizontal"
@@ -273,6 +304,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/tvTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rp 20.000"

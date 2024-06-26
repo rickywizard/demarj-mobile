@@ -13,7 +13,7 @@ import java.util.*
 
 class NotificationAdapter(private val listNotifWithPO: List<PreOrderWithStore>): RecyclerView.Adapter<NotificationAdapter.ListViewHolder>() {
 
-    fun formatToRupiah(amount: Int): String {
+    private fun formatToRupiah(amount: Int): String {
         val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
         return format.format(amount).replace("Rp", "Rp ").replace(",00", "")
     }

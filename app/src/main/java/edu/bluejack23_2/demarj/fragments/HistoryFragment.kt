@@ -1,16 +1,23 @@
 package edu.bluejack23_2.demarj.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.demarj.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import edu.bluejack23_2.demarj.activities.MainActivity
+import edu.bluejack23_2.demarj.adapter.HistoryAdapter
+import edu.bluejack23_2.demarj.databinding.FragmentHistoryBinding
+import edu.bluejack23_2.demarj.databinding.FragmentHomeBinding
+import edu.bluejack23_2.demarj.databinding.FragmentMyPoBinding
+import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
+import edu.bluejack23_2.demarj.viewmodel.TransactionViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +25,53 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HistoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _historyBinding: FragmentHistoryBinding? = null
+    private val historyBinding get() = _historyBinding!!
+    private lateinit var viewModel: TransactionViewModel
+    private lateinit var adapter: HistoryAdapter
+    private lateinit var sharedPreferences: SharedPreferences
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _historyBinding = FragmentHistoryBinding.inflate(inflater, container, false)
+        val view = historyBinding.root
+
+        val activity = requireActivity() as MainActivity
+
+        historyBinding.loadingBar.visibility = View.VISIBLE
+
+        sharedPreferences = activity.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+
+        val userId = sharedPreferences.getString("user_id", null)
+
+        if (userId != null) {
+            viewModel.fetchTransactionHistory(userId)
+
+            viewModel.transactionHistory.observe(viewLifecycleOwner) { historyItems ->
+                adapter = HistoryAdapter(historyItems)
+                historyBinding.rvHistory.adapter = adapter
+                historyBinding.rvHistory.layoutManager = LinearLayoutManager(context)
+                historyBinding.rvHistory.setHasFixedSize(true)
+                historyBinding.loadingBar.visibility = View.GONE
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _historyBinding = null
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HistoryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

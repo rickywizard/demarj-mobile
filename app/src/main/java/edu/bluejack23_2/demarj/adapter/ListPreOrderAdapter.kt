@@ -11,7 +11,7 @@ import java.util.Locale
 
 class ListPreOrderAdapter(private val listPreOrderWithStore: List<PreOrderWithStore>): RecyclerView.Adapter<ListPreOrderAdapter.ListViewHolder>() {
 
-    fun formatToRupiah(amount: Int): String {
+    private fun formatToRupiah(amount: Int): String {
         val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
         return format.format(amount).replace("Rp", "Rp ").replace(",00", "")
     }
