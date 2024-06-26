@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="10dp"
+    android:background="@drawable/background_notification"
+    >
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo_notif_hp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:src="@drawable/dummy_profpict"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
+        android:layout_marginLeft="10dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/desc_notif_layout_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toEndOf="@+id/photo_store_notif_hp"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:id="@+id/store_name_notif_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(store name)"
+            android:textColor="@color/black"
+            android:fontFamily="@font/acme"
+            />
+
+        <TextView
+            android:id="@+id/po_name_notif_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(PO name)"
+            android:textColor="@color/black"
+            android:fontFamily="@font/acme"
+            android:textSize="21sp"
+            />
+
+        <TextView
+            android:id="@+id/po_notif_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Pre Order Created !"
+            android:textColor="@color/black"
+            android:fontFamily="@font/acme"
+            android:textSize="17sp"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
