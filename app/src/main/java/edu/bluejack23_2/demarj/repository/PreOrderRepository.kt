@@ -28,12 +28,31 @@ class PreOrderRepository {
     private val usersDatabase: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
 
-    suspend fun updatePreOrder(preOrder: PreOrder): Result<String> = suspendCoroutine { continuation ->
+    fun uploadPOImage(productId: String, imageUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val imageRef = storage.child("pre_order_img/${imageUri.lastPathSegment}")
+        imageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    onSuccess(uri.toString())
+                }.addOnFailureListener { exception ->
+                    onFailure(exception)
+                }
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
+    }
+
+    fun updatePreOrder(preOrder: PreOrder, onSuccess: () -> Unit, onFailure: (DatabaseError) -> Unit) {
         database.child(preOrder.poId!!).setValue(preOrder).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                continuation.resume(Result.success(preOrder.poId))
+                onSuccess()
             } else {
-                continuation.resume(Result.failure(task.exception ?: Exception("Unknown error occurred")))
+                task.exception?.let {
+                    if (it is DatabaseError) {
+                        onFailure(it)
+                    }
+                }
             }
         }
     }

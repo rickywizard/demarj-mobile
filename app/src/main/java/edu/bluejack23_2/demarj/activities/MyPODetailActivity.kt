@@ -82,7 +82,7 @@ class MyPODetailActivity : AppCompatActivity() {
 
     private fun buttonListener(data: PreOrder) {
         binding.btnEdit.setOnClickListener {
-            val intent= Intent(this, MyPODetailActivity::class.java)
+            val intent= Intent(this, UpdatePOActivity::class.java)
             intent.putExtra("DATA", data)
             startActivity(intent)
         }
