@@ -1,6 +1,7 @@
 package edu.bluejack23_2.demarj.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,11 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.demarj.R
+import edu.bluejack23_2.demarj.activities.HistoryDetailActivity
 import edu.bluejack23_2.demarj.activities.MainActivity
 import edu.bluejack23_2.demarj.adapter.HistoryAdapter
 import edu.bluejack23_2.demarj.databinding.FragmentHistoryBinding
 import edu.bluejack23_2.demarj.databinding.FragmentHomeBinding
 import edu.bluejack23_2.demarj.databinding.FragmentMyPoBinding
+import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
 import edu.bluejack23_2.demarj.viewmodel.TransactionViewModel
 
@@ -65,6 +68,14 @@ class HistoryFragment : Fragment() {
                 historyBinding.rvHistory.layoutManager = LinearLayoutManager(context)
                 historyBinding.rvHistory.setHasFixedSize(true)
                 historyBinding.loadingBar.visibility = View.GONE
+
+                adapter.setOnItemClickCallback(object : HistoryAdapter.IOnHistoryClickCallback {
+                    override fun onHistoryClicked(data: History) {
+                        val intentToDetail = Intent(requireActivity(), HistoryDetailActivity::class.java)
+                        intentToDetail.putExtra("DATA", data)
+                        startActivity(intentToDetail)
+                    }
+                })
             }
         }
     }

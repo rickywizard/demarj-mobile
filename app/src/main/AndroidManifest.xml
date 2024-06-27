@@ -3,24 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:label="@string/app_name"
         android:icon="@drawable/icon_apps"
+        android:label="@string/app_name"
         android:roundIcon="@drawable/icon_apps"
         android:supportsRtl="true"
         android:theme="@style/Theme.DEmaRJ"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.MyPODetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.HistoryDetailActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_apps" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/green" />
+
         <activity
             android:name=".activities.DetailPOActivity"
             android:exported="false" />

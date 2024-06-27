@@ -43,6 +43,11 @@ class HistoryAdapter(private val listHistory: List<History>): RecyclerView.Adapt
                 } else {
                     "Unpaid"
                 }
+                binding.tvOrderStatus.text = if (this.transaction.taken == true) {
+                    "Taken"
+                } else {
+                    "Not Taken"
+                }
             }
         }
 

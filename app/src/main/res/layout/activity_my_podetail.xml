@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MyPODetailActivity">
+
+    <ImageView
+        android:id="@+id/detail_po_image"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/dummy_po_image"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/back_bttn_green"
+        android:layout_margin="20dp"
+        />
+
+    <ScrollView
+        android:id="@+id/detail_po_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_detail_po"
+        android:layout_below="@id/detail_po_image"
+        android:layout_above="@id/barLayout"
+        android:layout_marginTop="-22dp"
+        android:padding="25dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/detail_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/detail_po_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Nasi Bakar"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/green"
+                    android:textSize="25sp"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_po_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 15.000 / unit"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/green"
+                    android:textSize="20sp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/detail_po_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pulvinar odio eros, vitae pulvinar turpis lobortis non. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. "
+                android:fontFamily="@font/acme"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:layout_marginTop="7dp"
+                android:justificationMode="inter_word"
+                />
+
+            <LinearLayout
+                android:id="@+id/detail_end_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/detail_po_end_date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pre Order End Date : "
+                    android:textSize="17sp"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_po_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="21/07/2024"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="5dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_ready_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/detail_po_ready_date_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pre Order Ready Date : "
+                    android:textSize="17sp"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_po_ready_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23/07/2024"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="5dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_store_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/photo_profile_detail_po"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/dummy_profpict"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/roundedImageView"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_store_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NJuice"
+                    android:textSize="25sp"
+                    android:layout_marginLeft="15dp"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/green"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Total Income"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/green"
+                    android:textSize="25sp"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:id="@+id/tvIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 1.000.000"
+                    android:fontFamily="@font/acme"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvSectionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:fontFamily="@font/acme"
+                android:text="Buyer"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textColor="@color/green" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPreOrder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/barLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green"
+        android:gravity="end"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/LightButtonStyle"
+            android:background="@drawable/background_custom_button"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/acme"
+            android:text="Edit"
+            android:textAllCaps="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CancelButtonStyle"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/background_custom_button"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/acme"
+            android:text="Delete"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</RelativeLayout>

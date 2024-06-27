@@ -8,6 +8,7 @@ import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.R
@@ -64,27 +65,53 @@ class DetailPOActivity : AppCompatActivity() {
 
     private fun orderListener(data: PreOrderWithStore) {
         binding.btnOrder.setOnClickListener {
-            val poId = data.preOrder.poId.toString()
-            val userId = sharedPreferences.getString("user_id", null)
-            val quantity = binding.tvQuantity.text.toString().toIntOrNull() ?: 0
-            val notes = binding.detailNotes.text.toString()
-            val total = totalPrice
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Order Confirmation")
+            builder.setMessage("\n" +
+                    "Are you sure you want to order?")
 
-            val transaction = Transaction(
-                poId = poId,
-                userId = userId,
-                quantity = quantity,
-                notes = notes,
-                total_price = total,
-                large = isLarge,
-                paid = false
-            )
+            builder.setPositiveButton("Ok") { dialog, _ ->
+                onConfirmedOrder(data)
+                dialog.dismiss()
+            }
 
-            viewModel.addTransaction(transaction, data.preOrder.po_stock!!) { isSuccess, errorMessage ->
+            builder.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+    }
+
+    private fun onConfirmedOrder(data: PreOrderWithStore) {
+        val poId = data.preOrder.poId.toString()
+        val userId = sharedPreferences.getString("user_id", null)
+        val quantity = binding.tvQuantity.text.toString().toIntOrNull() ?: 0
+        val notes = binding.detailNotes.text.toString()
+        val total = totalPrice
+
+        val transaction = Transaction(
+            poId = poId,
+            userId = userId,
+            quantity = quantity,
+            notes = notes,
+            total_price = total,
+            large = isLarge,
+            paid = false,
+            taken = false,
+            img_proof = ""
+        )
+
+        val role = sharedPreferences.getString("role", null)
+
+        if (role != null) {
+            viewModel.addTransaction(role, transaction, data.preOrder.po_stock!!) { isSuccess, errorMessage ->
                 if (isSuccess) {
                     Toast.makeText(this, "Order success", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     Toast.makeText(this, errorMessage ?: "Order failed", Toast.LENGTH_SHORT).show()
                 }
@@ -127,11 +154,15 @@ class DetailPOActivity : AppCompatActivity() {
     private fun consumeData(data: PreOrderWithStore) {
         Glide.with(this).load(data.preOrder.po_img).into(binding.detailPoImage)
         binding.detailPoName.text = data.preOrder.po_name
-        binding.detailPoPrice.text = formatToRupiah(data.preOrder.po_price!!)
+        binding.detailPoPrice.text = formatToRupiah(data.preOrder.po_price!!) + "/unit"
         binding.detailPoDesc.text = data.preOrder.po_desc
         binding.detailPoEndDate.text = data.preOrder.po_end_date
         binding.detailPoReadyDate.text = data.preOrder.po_ready_date
-        binding.detailLargeSize.text = data.preOrder.po_large_price.toString()
+        binding.detailLargeSize.text = if (data.preOrder.po_large_price!! > 0) {
+            data.preOrder.po_large_price.toString()
+        } else {
+            "0"
+        }
         binding.detailPoStock.text = data.preOrder.po_stock.toString()
 
         totalPrice = data.preOrder.po_price!!

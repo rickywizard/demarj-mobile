@@ -24,6 +24,11 @@
         <item name="cornerSize">10%</item>
     </style>
 
+    <style name="roundedImageView3">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
     <style name="Widget.App.ButtonStyle"
         parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/WhiteButtonThemeOverlay</item>
@@ -31,5 +36,23 @@
 
     <style name="WhiteButtonThemeOverlay">
         <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="CancelButtonStyle"
+        parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/RedButtonThemeOverlay</item>
+    </style>
+
+    <style name="RedButtonThemeOverlay">
+        <item name="colorPrimary">@color/red</item>
+    </style>
+
+    <style name="LightButtonStyle"
+        parent="Widget.MaterialComponents.Button">
+        <item name="materialThemeOverlay">@style/GreenButtonThemeOverlay</item>
+    </style>
+
+    <style name="GreenButtonThemeOverlay">
+        <item name="colorPrimary">@color/medium_green</item>
     </style>
 </resources>
