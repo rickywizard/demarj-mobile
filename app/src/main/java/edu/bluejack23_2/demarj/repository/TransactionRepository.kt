@@ -10,10 +10,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import edu.bluejack23_2.demarj.model.History
-import edu.bluejack23_2.demarj.model.PreOrder
-import edu.bluejack23_2.demarj.model.Transaction
-import edu.bluejack23_2.demarj.model.User
+import edu.bluejack23_2.demarj.model.*
 
 class TransactionRepository {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app")
@@ -21,6 +18,45 @@ class TransactionRepository {
     private val preOrderRef: DatabaseReference = database.getReference("pre_orders")
     private val storeRef: DatabaseReference = database.getReference("users")
     private val storageRef = FirebaseStorage.getInstance().reference
+    private val userRef: DatabaseReference = database.getReference("users")
+
+    fun fetchTransactionsWithUserByProductId(productId: String, onComplete: (List<TransactionWithUser>) -> Unit) {
+        transactionRef.orderByChild("poId").equalTo(productId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val transactionList = mutableListOf<Transaction>()
+                snapshot.children.forEach {
+                    val transaction = it.getValue(Transaction::class.java)
+                    transaction?.let { transactionList.add(it) }
+                }
+                fetchUsersForTransactions(transactionList, onComplete)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database error
+            }
+        })
+    }
+
+    private fun fetchUsersForTransactions(transactions: List<Transaction>, onComplete: (List<TransactionWithUser>) -> Unit) {
+        val transactionsWithUser = mutableListOf<TransactionWithUser>()
+        transactions.forEach { transaction ->
+            userRef.child(transaction.userId!!).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue(User::class.java)
+                    if (user != null) {
+                        transactionsWithUser.add(TransactionWithUser(transaction, user))
+                    }
+                    if (transactionsWithUser.size == transactions.size) {
+                        onComplete(transactionsWithUser)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle database error
+                }
+            })
+        }
+    }
 
     fun uploadProofImage(transactionId: String, imageUri: Uri, onComplete: (Boolean) -> Unit) {
         val proofImageRef = storageRef.child("proof_images/$transactionId")

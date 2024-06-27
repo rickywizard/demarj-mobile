@@ -201,7 +201,7 @@
                 android:id="@+id/tvSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/acme"
                 android:text="Buyer"
                 android:textAlignment="center"
@@ -209,11 +209,10 @@
                 android:textColor="@color/green" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPreOrder"
+                android:id="@+id/rvBuyer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
-                android:layout_marginTop="10dp"/>
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -230,6 +229,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/LightButtonStyle"
@@ -240,6 +240,7 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/CancelButtonStyle"
