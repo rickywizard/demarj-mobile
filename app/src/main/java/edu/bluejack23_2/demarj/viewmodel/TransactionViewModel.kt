@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.model.Transaction
+import edu.bluejack23_2.demarj.model.TransactionWithUser
 import edu.bluejack23_2.demarj.repository.TransactionRepository
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +23,15 @@ class TransactionViewModel: ViewModel() {
 
     private val _uploadResult = MutableLiveData<Boolean>()
     val uploadResult: LiveData<Boolean> get() = _uploadResult
+
+    private val _transactionsWithUser = MutableLiveData<List<TransactionWithUser>>()
+    val transactionsWithUser: LiveData<List<TransactionWithUser>> get() = _transactionsWithUser
+
+    fun fetchTransactionsWithUserByProductId(productId: String) {
+        repository.fetchTransactionsWithUserByProductId(productId) { transactionsWithUser ->
+            _transactionsWithUser.postValue(transactionsWithUser)
+        }
+    }
 
     fun fetchTransactionHistory(userId: String) {
         _transactionHistory.postValue(emptyList()) // Clear previous data
