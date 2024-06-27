@@ -47,6 +47,12 @@ class BuyerAdapter(private val listTransactionWithUser: List<TransactionWithUser
                 }
 
                 binding.tvNotes.text = this.transaction.notes
+
+                binding.btnUploadProof.visibility = if (this.transaction.img_proof == "") {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
             }
         }
 
