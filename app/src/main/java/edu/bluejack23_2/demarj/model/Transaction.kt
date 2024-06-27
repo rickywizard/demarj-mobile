@@ -13,4 +13,6 @@ data class Transaction(
     val notes: String? = null,
     val total_price: Int? = 0,
     val paid: Boolean? = false,
+    val taken: Boolean? = false,
+    val img_proof: String? = null
 ) : Parcelable

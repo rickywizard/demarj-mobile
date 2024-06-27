@@ -16,6 +16,9 @@ import edu.bluejack23_2.demarj.model.User
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -92,11 +95,17 @@ class PreOrderRepository {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val preOrderList = mutableListOf<PreOrder>()
+                val today = Calendar.getInstance().time
+                val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
                 snapshot.children.forEach {
                     val preOrder = it.getValue(PreOrder::class.java)
                     preOrder?.let {
-                        preOrderList.add(preOrder)
+                        val endDate = dateFormat.parse(it.po_end_date!!)
+                        Log.d("DATE", "today: $today, end: $endDate")
+                        if (endDate != null && endDate.after(today)) {
+                            preOrderList.add(preOrder)
+                        }
                     }
                 }
 

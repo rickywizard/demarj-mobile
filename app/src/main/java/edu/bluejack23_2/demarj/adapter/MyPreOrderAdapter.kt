@@ -5,9 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.databinding.MyPoCardBinding
+import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.model.PreOrder
 
 class MyPreOrderAdapter(private val listMyPO: List<PreOrder>): RecyclerView.Adapter<MyPreOrderAdapter.ListViewHolder>() {
+
+    interface IOnMyPOClickCallback {
+        fun onMyPOClicked(data: PreOrder)
+    }
+
+    private lateinit var onItemClickCallback: IOnMyPOClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: IOnMyPOClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     inner class ListViewHolder(val binding: MyPoCardBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -28,6 +39,10 @@ class MyPreOrderAdapter(private val listMyPO: List<PreOrder>): RecyclerView.Adap
                 binding.tvPOName.text = this.po_name
                 binding.tvPOEndDate.text = this.po_end_date
             }
+        }
+
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onMyPOClicked(listMyPO[holder.adapterPosition])
         }
     }
 }

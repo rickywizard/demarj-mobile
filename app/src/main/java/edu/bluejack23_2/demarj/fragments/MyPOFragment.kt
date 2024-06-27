@@ -1,6 +1,7 @@
 package edu.bluejack23_2.demarj.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.bluejack23_2.demarj.R
+import edu.bluejack23_2.demarj.activities.HistoryDetailActivity
 import edu.bluejack23_2.demarj.activities.MainActivity
+import edu.bluejack23_2.demarj.activities.MyPODetailActivity
 import edu.bluejack23_2.demarj.adapter.MyPreOrderAdapter
 import edu.bluejack23_2.demarj.databinding.FragmentMyPoBinding
+import edu.bluejack23_2.demarj.model.PreOrder
 import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
 
 /**
@@ -63,6 +67,14 @@ class MyPOFragment : Fragment() {
                 myPOBinding.rvMyPO.layoutManager = GridLayoutManager(context, 2)
                 myPOBinding.rvMyPO.setHasFixedSize(true)
                 myPOBinding.loadingBar.visibility = View.GONE
+
+                adapter.setOnItemClickCallback(object : MyPreOrderAdapter.IOnMyPOClickCallback {
+                    override fun onMyPOClicked(data: PreOrder) {
+                        val intentToDetail = Intent(requireActivity(), MyPODetailActivity::class.java)
+                        intentToDetail.putExtra("DATA", data)
+                        startActivity(intentToDetail)
+                    }
+                })
 
 //                Log.d("MYPO", "onViewCreated: $preOrders")
             }
