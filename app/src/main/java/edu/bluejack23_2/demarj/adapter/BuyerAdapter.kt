@@ -40,6 +40,8 @@ class BuyerAdapter(private val listTransactionWithUser: List<TransactionWithUser
                     View.VISIBLE
                 }
 
+                binding.cbPaid.isChecked = this.transaction.paid == true
+
                 binding.tvQuantity.text = if (this.transaction.large == true) {
                     this.transaction.quantity.toString() + " (LARGE)"
                 } else {

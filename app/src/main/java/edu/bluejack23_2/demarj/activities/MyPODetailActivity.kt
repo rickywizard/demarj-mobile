@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import edu.bluejack23_2.demarj.adapter.HistoryAdapter
 import edu.bluejack23_2.demarj.databinding.ActivityMyPodetailBinding
 import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.model.PreOrder
+import edu.bluejack23_2.demarj.viewmodel.PreOrderViewModel
 import edu.bluejack23_2.demarj.viewmodel.TransactionViewModel
 import java.text.NumberFormat
 import java.util.*
@@ -23,6 +25,7 @@ import java.util.*
 class MyPODetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TransactionViewModel
+    private lateinit var preOrderViewModel: PreOrderViewModel
     private lateinit var binding: ActivityMyPodetailBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var adapter: BuyerAdapter
@@ -43,6 +46,7 @@ class MyPODetailActivity : AppCompatActivity() {
         }
 
         viewModel = ViewModelProvider(this).get(TransactionViewModel::class.java)
+        preOrderViewModel = ViewModelProvider(this).get(PreOrderViewModel::class.java)
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -64,6 +68,10 @@ class MyPODetailActivity : AppCompatActivity() {
                 binding.rvBuyer.adapter = adapter
                 binding.rvBuyer.layoutManager = LinearLayoutManager(this)
                 binding.rvBuyer.setHasFixedSize(true)
+            }
+
+            viewModel.totalPrice.observe(this) { totalPrice ->
+                binding.tvIncome.text = formatToRupiah(totalPrice)
             }
         }
     }
@@ -91,7 +99,7 @@ class MyPODetailActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Delete Confirmation")
             builder.setMessage("\n" +
-                    "Are you sure you want to delete?")
+                    "Are you sure you want to delete Pre Order?")
 
             builder.setPositiveButton("Ok") { dialog, _ ->
                 onConfirmedDelete(data)
@@ -108,6 +116,15 @@ class MyPODetailActivity : AppCompatActivity() {
     }
 
     private fun onConfirmedDelete(data: PreOrder) {
+        preOrderViewModel.deleteStatus.observe(this) { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(this, "Product deleted successfully", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                Toast.makeText(this, "Failed to delete product", Toast.LENGTH_SHORT).show()
+            }
+        }
 
+        preOrderViewModel.deleteProduct(data.poId!!)
     }
 }

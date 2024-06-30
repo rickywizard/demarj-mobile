@@ -27,10 +27,22 @@ class TransactionViewModel: ViewModel() {
     private val _transactionsWithUser = MutableLiveData<List<TransactionWithUser>>()
     val transactionsWithUser: LiveData<List<TransactionWithUser>> get() = _transactionsWithUser
 
+    private val _totalPrice = MutableLiveData<Int>()
+    val totalPrice: LiveData<Int> get() = _totalPrice
+
     fun fetchTransactionsWithUserByProductId(productId: String) {
         repository.fetchTransactionsWithUserByProductId(productId) { transactionsWithUser ->
             _transactionsWithUser.postValue(transactionsWithUser)
+            calculateTotalPrice(transactionsWithUser)
         }
+    }
+
+    private fun calculateTotalPrice(transactionsWithUser: List<TransactionWithUser>) {
+        var total = 0
+        for (transactionWithUser in transactionsWithUser) {
+            total += transactionWithUser.transaction.total_price!!
+        }
+        _totalPrice.postValue(total)
     }
 
     fun fetchTransactionHistory(userId: String) {
@@ -72,7 +84,7 @@ class TransactionViewModel: ViewModel() {
         val today = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val ready = dateFormat.parse(readyDate)
-        if (ready!= null && ready.after(today)) {
+        if (ready!= null && ready.before(today)) {
             repository.deleteTransaction(transactionId) { success ->
                 _deleteResult.postValue(success)
             }

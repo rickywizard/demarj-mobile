@@ -27,9 +27,40 @@ class PreOrderRepository {
     private val database: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("pre_orders")
     private val usersDatabase: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("users")
     private val storage = FirebaseStorage.getInstance().reference
+    private val transactionRef: DatabaseReference = FirebaseDatabase.getInstance("https://demarj-59046-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("transactions")
 
-    fun uploadPOImage(productId: String, imageUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        val imageRef = storage.child("pre_order_img/${imageUri.lastPathSegment}")
+    fun deletePO(poId: String, onSuccess: () -> Unit, onFailure: (DatabaseError) -> Unit) {
+        database.child(poId).removeValue().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                deletePOTransactions(poId, onSuccess, onFailure)
+            } else {
+                task.exception?.let {
+                    if (it is DatabaseError) {
+                        onFailure(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deletePOTransactions(poId: String, onSuccess: () -> Unit, onFailure: (DatabaseError) -> Unit) {
+        transactionRef.orderByChild("poId").equalTo(poId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (transactionSnapshot in snapshot.children) {
+                        transactionSnapshot.ref.removeValue()
+                    }
+                    onSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onFailure(error)
+                }
+            })
+    }
+
+    fun uploadPOImage(userId: String, imageUri: Uri, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        val imageRef = storage.child("pre_order_img/${userId}/${imageUri.lastPathSegment}")
         imageRef.putFile(imageUri)
             .addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -43,15 +74,13 @@ class PreOrderRepository {
             }
     }
 
-    fun updatePreOrder(preOrder: PreOrder, onSuccess: () -> Unit, onFailure: (DatabaseError) -> Unit) {
+    fun updatePreOrder(preOrder: PreOrder, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         database.child(preOrder.poId!!).setValue(preOrder).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 onSuccess()
             } else {
                 task.exception?.let {
-                    if (it is DatabaseError) {
-                        onFailure(it)
-                    }
+                    onFailure(it)
                 }
             }
         }

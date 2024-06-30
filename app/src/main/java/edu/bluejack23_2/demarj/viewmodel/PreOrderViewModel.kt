@@ -20,19 +20,69 @@ class PreOrderViewModel() : ViewModel() {
     private val _updateStatus = MutableLiveData<Boolean>()
     val updateStatus: LiveData<Boolean> get() = _updateStatus
 
-    fun updateProduct(preOrder: PreOrder, imageUri: Uri) {
-        repository.uploadPOImage(preOrder.poId!!, imageUri, { imageUrl ->
-            val updatedPO = preOrder.copy(po_img = imageUrl)
-            repository.updatePreOrder(updatedPO, {
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
+
+    private val _deleteStatus = MutableLiveData<Boolean>()
+    val deleteStatus: LiveData<Boolean> get() = _deleteStatus
+
+    fun deleteProduct(poId: String) {
+        repository.deletePO(poId, {
+            _deleteStatus.value = true
+        }, { error ->
+            Log.e("PreOrderViewModel", "Delete failed: $error")
+            _deleteStatus.value = false
+        })
+    }
+
+    fun updatePreOrder(preOrder: PreOrder, imageUri: Uri?) {
+        if (preOrder.po_name == null || preOrder.po_name.isBlank()) {
+            _errorMessage.value = "Pre Order name cannot be empty"
+            return
+        }
+        if (preOrder.po_desc == null || preOrder.po_desc.isBlank()) {
+            _errorMessage.value = "Pre Order description cannot be empty"
+            return
+        }
+        if (preOrder.po_price == null || preOrder.po_price <= 0) {
+            _errorMessage.value = "Pre Order name cannot be empty"
+            return
+        }
+        if (preOrder.po_end_date == null || preOrder.po_end_date.isBlank()) {
+            _errorMessage.value = "Pre Order end date cannot be empty"
+            return
+        }
+        if (preOrder.po_ready_date == null || preOrder.po_ready_date.isBlank()) {
+            _errorMessage.value = "Pre Order end date cannot be empty"
+            return
+        }
+        if (preOrder.po_stock == null || preOrder.po_stock <= 0) {
+            _errorMessage.value = "Pre Order end date cannot be empty"
+            return
+        }
+
+        if (imageUri == null) {
+            repository.updatePreOrder(preOrder, {
                 _updateStatus.value = true
             }, { error ->
                 Log.e("ProductViewModel", "Update failed: $error")
                 _updateStatus.value = false
             })
-        }, { exception ->
-            Log.e("ProductViewModel", "Image upload failed: $exception")
-            _updateStatus.value = false
-        })
+        }
+        else {
+            repository.uploadPOImage(preOrder.poId!!, imageUri, { imageUrl ->
+                val updatedPO = preOrder.copy(po_img = imageUrl)
+                repository.updatePreOrder(updatedPO, {
+                    _updateStatus.value = true
+                }, { error ->
+                    Log.e("ProductViewModel", "Update failed: $error")
+                    _updateStatus.value = false
+                })
+            }, { exception ->
+                Log.e("ProductViewModel", "Image upload failed: $exception")
+                _updateStatus.value = false
+            })
+        }
     }
 
     fun fetchPreOrderByStoreId(storeId: String) {

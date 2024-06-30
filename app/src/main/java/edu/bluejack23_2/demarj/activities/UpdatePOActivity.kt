@@ -1,6 +1,7 @@
 package edu.bluejack23_2.demarj.activities
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -91,23 +92,54 @@ class UpdatePOActivity : AppCompatActivity() {
     }
 
     private fun updateListener(data: PreOrder) {
-        viewModel.updateStatus.observe(this, Observer { isSuccess ->
+        viewModel.updateStatus.observe(this) { isSuccess ->
             if (isSuccess) {
                 Toast.makeText(this, "Product updated successfully", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Failed to update product", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
-        val po_name = binding.poNameEdit.text.toString()
-        val po_desc = binding.poDescEdit.text.toString()
-        val po_price = binding.poPriceEdit.text.toString()
-        val po_large_price = binding.poAdditionalEdit.text.toString()
-        val po_end_date = binding.poEndDateEdit.text.toString()
-        val po_ready_date = binding.poReadyDateEdit.text.toString()
-        val po_stock = binding.poStockEdit.text.toString()
+        viewModel.errorMessage.observe(this) { message ->
+            message?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
 
+        binding.btnUpdate.setOnClickListener {
+            val poName = binding.poNameEdit.text.toString()
+            val poDesc = binding.poDescEdit.text.toString()
+            val poPrice = binding.poPriceEdit.text.toString()
+            val poLargePrice = binding.poAdditionalEdit.text.toString()
+            val poEndDate = binding.poEndDateEdit.text.toString()
+            val poReadyDate = binding.poReadyDateEdit.text.toString()
+            val poStock = binding.poStockEdit.text.toString()
 
+            val img = if (preOrderImg == null) {
+                data.po_img
+            } else {
+                ""
+            }
+
+            val updatedPO = PreOrder(
+                po_img = img,
+                poId = data.poId,
+                po_name = poName,
+                po_desc = poDesc,
+                po_price = Integer.parseInt(poPrice),
+                po_large_price = Integer.parseInt(poLargePrice),
+                po_end_date = poEndDate,
+                po_ready_date = poReadyDate,
+                po_stock = Integer.parseInt(poStock),
+                po_ownerId = data.po_ownerId,
+                po_created_at = data.po_created_at
+            )
+
+            viewModel.updatePreOrder(updatedPO, preOrderImg)
+        }
     }
 
     private fun consumeData(data: PreOrder) {
