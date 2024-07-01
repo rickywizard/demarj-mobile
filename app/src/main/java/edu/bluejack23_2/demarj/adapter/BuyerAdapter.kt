@@ -1,5 +1,6 @@
 package edu.bluejack23_2.demarj.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,10 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.bluejack23_2.demarj.databinding.BuyerCardBinding
 import edu.bluejack23_2.demarj.databinding.PreOrderCardBinding
+import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.model.PreOrderWithStore
 import edu.bluejack23_2.demarj.model.TransactionWithUser
 
-class BuyerAdapter(private val listTransactionWithUser: List<TransactionWithUser>): RecyclerView.Adapter<BuyerAdapter.ListViewHolder>() {
+class BuyerAdapter(private val context: Context, private val listTransactionWithUser: List<TransactionWithUser>): RecyclerView.Adapter<BuyerAdapter.ListViewHolder>() {
+
+    interface IOnBuyerClickCallback {
+        fun onProofClicked(data: TransactionWithUser)
+        fun onPaidChecked(data: TransactionWithUser, checked: Boolean, context: Context)
+        fun onTakenChecked(data: TransactionWithUser, checked: Boolean, context: Context)
+    }
+
+    private lateinit var onItemClickCallback: IOnBuyerClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: IOnBuyerClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     inner class ListViewHolder(val binding: BuyerCardBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -50,12 +64,24 @@ class BuyerAdapter(private val listTransactionWithUser: List<TransactionWithUser
 
                 binding.tvNotes.text = this.transaction.notes
 
-                binding.btnUploadProof.visibility = if (this.transaction.img_proof == "") {
+                binding.btnProof.visibility = if (this.transaction.img_proof == "") {
                     View.GONE
                 } else {
                     View.VISIBLE
                 }
             }
+        }
+
+        holder.binding.btnProof.setOnClickListener {
+            onItemClickCallback.onProofClicked(listTransactionWithUser[holder.adapterPosition])
+        }
+        
+        holder.binding.cbPaid.setOnCheckedChangeListener { _, isChecked ->
+            onItemClickCallback.onPaidChecked(listTransactionWithUser[holder.adapterPosition], isChecked, context)
+        }
+
+        holder.binding.cbTaken.setOnCheckedChangeListener { _, isChecked ->
+            onItemClickCallback.onTakenChecked(listTransactionWithUser[holder.adapterPosition], isChecked, context)
         }
 
 //        Log.d("AdapterBinding", "Binding data at position $position: $this")

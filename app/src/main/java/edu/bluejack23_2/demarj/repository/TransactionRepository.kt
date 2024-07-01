@@ -20,6 +20,20 @@ class TransactionRepository {
     private val storageRef = FirebaseStorage.getInstance().reference
     private val userRef: DatabaseReference = database.getReference("users")
 
+    fun updateTakenStatus(transactionId: String, taken: Boolean, onComplete: (Boolean) -> Unit) {
+        transactionRef.child(transactionId).child("taken").setValue(taken)
+            .addOnCompleteListener { task ->
+                onComplete(task.isSuccessful)
+            }
+    }
+
+    fun updatePaidStatus(transactionId: String, paid: Boolean, onComplete: (Boolean) -> Unit) {
+        transactionRef.child(transactionId).child("paid").setValue(paid)
+            .addOnCompleteListener { task ->
+                onComplete(task.isSuccessful)
+            }
+    }
+
     fun fetchTransactionsWithUserByProductId(productId: String, onComplete: (List<TransactionWithUser>) -> Unit) {
         transactionRef.orderByChild("poId").equalTo(productId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

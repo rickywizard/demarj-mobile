@@ -108,7 +108,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnUploadProof"
+                    android:id="@+id/btnProof"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginStart="14dp"

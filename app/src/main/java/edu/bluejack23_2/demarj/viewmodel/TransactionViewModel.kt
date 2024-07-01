@@ -52,6 +52,18 @@ class TransactionViewModel: ViewModel() {
         }
     }
 
+    fun updateTakenStatus(transactionId: String, taken: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        repository.updateTakenStatus(transactionId, taken) { isSuccess ->
+            onComplete(isSuccess, "Successfully update taken status")
+        }
+    }
+
+    fun updatePaidStatus(transactionId: String, paid: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        repository.updatePaidStatus(transactionId, paid) { isSuccess ->
+            onComplete(isSuccess, "Successfully update payment status")
+        }
+    }
+
     fun addTransaction(role: String, transaction: Transaction, availableStock: Int, onComplete: (Boolean, String?) -> Unit) {
         if (role != "User") {
             onComplete(false, "You have to be User to order!")
