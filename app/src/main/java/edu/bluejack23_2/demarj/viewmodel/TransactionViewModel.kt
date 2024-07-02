@@ -27,16 +27,40 @@ class TransactionViewModel: ViewModel() {
     private val _transactionsWithUser = MutableLiveData<List<TransactionWithUser>>()
     val transactionsWithUser: LiveData<List<TransactionWithUser>> get() = _transactionsWithUser
 
+    private val _totalPrice = MutableLiveData<Int>()
+    val totalPrice: LiveData<Int> get() = _totalPrice
+
     fun fetchTransactionsWithUserByProductId(productId: String) {
         repository.fetchTransactionsWithUserByProductId(productId) { transactionsWithUser ->
             _transactionsWithUser.postValue(transactionsWithUser)
+            calculateTotalPrice(transactionsWithUser)
         }
+    }
+
+    private fun calculateTotalPrice(transactionsWithUser: List<TransactionWithUser>) {
+        var total = 0
+        for (transactionWithUser in transactionsWithUser) {
+            total += transactionWithUser.transaction.total_price!!
+        }
+        _totalPrice.postValue(total)
     }
 
     fun fetchTransactionHistory(userId: String) {
         _transactionHistory.postValue(emptyList()) // Clear previous data
         repository.getHistoryByUserId(userId).observeForever {
             _transactionHistory.postValue(it)
+        }
+    }
+
+    fun updateTakenStatus(transactionId: String, taken: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        repository.updateTakenStatus(transactionId, taken) { isSuccess ->
+            onComplete(isSuccess, "Successfully update taken status")
+        }
+    }
+
+    fun updatePaidStatus(transactionId: String, paid: Boolean, onComplete: (Boolean, String?) -> Unit) {
+        repository.updatePaidStatus(transactionId, paid) { isSuccess ->
+            onComplete(isSuccess, "Successfully update payment status")
         }
     }
 
@@ -72,7 +96,7 @@ class TransactionViewModel: ViewModel() {
         val today = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val ready = dateFormat.parse(readyDate)
-        if (ready!= null && ready.after(today)) {
+        if (ready!= null && ready.before(today)) {
             repository.deleteTransaction(transactionId) { success ->
                 _deleteResult.postValue(success)
             }

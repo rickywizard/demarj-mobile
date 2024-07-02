@@ -27,7 +27,6 @@
                 android:layout_height="120dp"
                 android:layout_marginStart="140dp"
                 android:layout_marginTop="30dp"
-                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -109,7 +108,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btnUploadProof"
+                    android:id="@+id/btnProof"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginStart="14dp"
@@ -153,7 +152,7 @@
                 android:layout_marginTop="4dp"
                 android:text="(customer name)"
                 android:fontFamily="@font/acme"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -165,7 +164,7 @@
                 android:layout_marginTop="4dp"
                 android:text="(phone)"
                 android:fontFamily="@font/acme"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -177,7 +176,7 @@
                 android:layout_marginTop="4dp"
                 android:text="(email)"
                 android:fontFamily="@font/acme"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/black" />
 
         </RelativeLayout>
