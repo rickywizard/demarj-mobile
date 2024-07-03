@@ -54,19 +54,26 @@ class NotificationFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(PreOrderViewModel::class.java)
 
         viewModel.preOrdersWithStore.observe(viewLifecycleOwner) { notif ->
-            adapter = NotificationAdapter(notif)
-            notificationBinding.rvNotification.adapter = adapter
-            notificationBinding.rvNotification.layoutManager = LinearLayoutManager(context)
-            notificationBinding.rvNotification.setHasFixedSize(true)
-            notificationBinding.loadingBar.visibility = View.GONE
+            if (notif.isEmpty()) {
+                notificationBinding.loadingBar.visibility = View.GONE
+                notificationBinding.tvNoData.visibility = View.VISIBLE
+            }
+            else {
+                adapter = NotificationAdapter(notif)
+                notificationBinding.rvNotification.adapter = adapter
+                notificationBinding.rvNotification.layoutManager = LinearLayoutManager(context)
+                notificationBinding.rvNotification.setHasFixedSize(true)
+                notificationBinding.loadingBar.visibility = View.GONE
+                notificationBinding.tvNoData.visibility = View.GONE
 
-            adapter.setOnItemClickCallback(object : NotificationAdapter.IOnNotifClickCallback {
-                override fun onPreOrderClicked(data: PreOrderWithStore) {
-                    val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
-                    intentToDetail.putExtra("DATA", data)
-                    startActivity(intentToDetail)
-                }
-            })
+                adapter.setOnItemClickCallback(object : NotificationAdapter.IOnNotifClickCallback {
+                    override fun onPreOrderClicked(data: PreOrderWithStore) {
+                        val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
+                        intentToDetail.putExtra("DATA", data)
+                        startActivity(intentToDetail)
+                    }
+                })
+            }
         }
     }
 

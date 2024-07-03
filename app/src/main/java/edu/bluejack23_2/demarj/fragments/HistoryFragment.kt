@@ -63,19 +63,26 @@ class HistoryFragment : Fragment() {
             viewModel.fetchTransactionHistory(userId)
 
             viewModel.transactionHistory.observe(viewLifecycleOwner) { historyItems ->
-                adapter = HistoryAdapter(historyItems)
-                historyBinding.rvHistory.adapter = adapter
-                historyBinding.rvHistory.layoutManager = LinearLayoutManager(context)
-                historyBinding.rvHistory.setHasFixedSize(true)
-                historyBinding.loadingBar.visibility = View.GONE
+                if (historyItems.isEmpty()) {
+                    historyBinding.loadingBar.visibility = View.GONE
+                    historyBinding.tvNoData.visibility = View.VISIBLE
+                }
+                else {
+                    adapter = HistoryAdapter(historyItems)
+                    historyBinding.rvHistory.adapter = adapter
+                    historyBinding.rvHistory.layoutManager = LinearLayoutManager(context)
+                    historyBinding.rvHistory.setHasFixedSize(true)
+                    historyBinding.loadingBar.visibility = View.GONE
+                    historyBinding.tvNoData.visibility = View.GONE
 
-                adapter.setOnItemClickCallback(object : HistoryAdapter.IOnHistoryClickCallback {
-                    override fun onHistoryClicked(data: History) {
-                        val intentToDetail = Intent(requireActivity(), HistoryDetailActivity::class.java)
-                        intentToDetail.putExtra("DATA", data)
-                        startActivity(intentToDetail)
-                    }
-                })
+                    adapter.setOnItemClickCallback(object : HistoryAdapter.IOnHistoryClickCallback {
+                        override fun onHistoryClicked(data: History) {
+                            val intentToDetail = Intent(requireActivity(), HistoryDetailActivity::class.java)
+                            intentToDetail.putExtra("DATA", data)
+                            startActivity(intentToDetail)
+                        }
+                    })
+                }
             }
         }
     }

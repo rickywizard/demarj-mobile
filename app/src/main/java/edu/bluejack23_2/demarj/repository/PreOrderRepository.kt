@@ -151,19 +151,25 @@ class PreOrderRepository {
                     preOrder?.let {
                         val endDate = dateFormat.parse(it.po_end_date!!)
                         Log.d("DATE", "today: $today, end: $endDate")
-                        if (endDate != null && endDate.after(today)) {
+                        if (endDate != null && endDate.after(today) && preOrder.po_stock != null && preOrder.po_stock > 0) {
                             preOrderList.add(preOrder)
                         }
                     }
                 }
 
-                getStoreNames(preOrderList, liveData)
+                if (preOrderList.isEmpty()) {
+                    liveData.value = emptyList()
+                } else {
+                    getStoreNames(preOrderList, liveData)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e("ERR", "onCancelled: $error")
             }
         })
+
+//        Log.d("REPO PO", "${liveData.value}")
 
         return liveData
     }

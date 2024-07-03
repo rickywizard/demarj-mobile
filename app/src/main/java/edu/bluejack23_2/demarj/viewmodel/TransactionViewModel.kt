@@ -31,6 +31,7 @@ class TransactionViewModel: ViewModel() {
     val totalPrice: LiveData<Int> get() = _totalPrice
 
     fun fetchTransactionsWithUserByProductId(productId: String) {
+        _transactionsWithUser.postValue(emptyList())
         repository.fetchTransactionsWithUserByProductId(productId) { transactionsWithUser ->
             _transactionsWithUser.postValue(transactionsWithUser)
             calculateTotalPrice(transactionsWithUser)

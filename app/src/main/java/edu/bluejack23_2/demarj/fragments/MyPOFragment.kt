@@ -62,19 +62,26 @@ class MyPOFragment : Fragment() {
         if (storeId != null) {
             viewModel.fetchPreOrderByStoreId(storeId)
             viewModel.preOrdersByStoreId.observe(viewLifecycleOwner) { preOrders ->
-                adapter = MyPreOrderAdapter(preOrders)
-                myPOBinding.rvMyPO.adapter = adapter
-                myPOBinding.rvMyPO.layoutManager = GridLayoutManager(context, 2)
-                myPOBinding.rvMyPO.setHasFixedSize(true)
-                myPOBinding.loadingBar.visibility = View.GONE
+                if (preOrders.isNullOrEmpty()) {
+                    myPOBinding.loadingBar.visibility = View.GONE
+                    myPOBinding.tvNoData.visibility = View.VISIBLE
+                }
+                else {
+                    adapter = MyPreOrderAdapter(preOrders)
+                    myPOBinding.rvMyPO.adapter = adapter
+                    myPOBinding.rvMyPO.layoutManager = GridLayoutManager(context, 2)
+                    myPOBinding.rvMyPO.setHasFixedSize(true)
+                    myPOBinding.loadingBar.visibility = View.GONE
+                    myPOBinding.tvNoData.visibility = View.GONE
 
-                adapter.setOnItemClickCallback(object : MyPreOrderAdapter.IOnMyPOClickCallback {
-                    override fun onMyPOClicked(data: PreOrder) {
-                        val intentToDetail = Intent(requireActivity(), MyPODetailActivity::class.java)
-                        intentToDetail.putExtra("DATA", data)
-                        startActivity(intentToDetail)
-                    }
-                })
+                    adapter.setOnItemClickCallback(object : MyPreOrderAdapter.IOnMyPOClickCallback {
+                        override fun onMyPOClicked(data: PreOrder) {
+                            val intentToDetail = Intent(requireActivity(), MyPODetailActivity::class.java)
+                            intentToDetail.putExtra("DATA", data)
+                            startActivity(intentToDetail)
+                        }
+                    })
+                }
 
 //                Log.d("MYPO", "onViewCreated: $preOrders")
             }

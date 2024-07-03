@@ -122,7 +122,7 @@ class DetailPOActivity : AppCompatActivity() {
     private fun updateViews(price: Int?, largePrice: Int?) {
         binding.tvQuantity.text = quantity.toString()
         totalPrice = if (isLarge) {
-            quantity * price!! + largePrice!!
+            (quantity * price!!) + (quantity * largePrice!!)
         } else {
             quantity * price!!
         }

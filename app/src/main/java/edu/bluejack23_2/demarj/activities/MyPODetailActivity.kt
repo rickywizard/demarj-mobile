@@ -73,38 +73,44 @@ class MyPODetailActivity : AppCompatActivity() {
             viewModel.fetchTransactionsWithUserByProductId(data.poId!!)
 
             viewModel.transactionsWithUser.observe(this) { buyers ->
-                adapter = BuyerAdapter(this, buyers)
-                binding.rvBuyer.adapter = adapter
-                binding.rvBuyer.layoutManager = LinearLayoutManager(this)
-                binding.rvBuyer.setHasFixedSize(true)
+                if (buyers.isEmpty()) {
+                    binding.tvNoData.visibility = View.VISIBLE
+                }
+                else {
+                    adapter = BuyerAdapter(this, buyers)
+                    binding.rvBuyer.adapter = adapter
+                    binding.rvBuyer.layoutManager = LinearLayoutManager(this)
+                    binding.rvBuyer.setHasFixedSize(true)
+                    binding.tvNoData.visibility = View.GONE
 
-                adapter.setOnItemClickCallback(object : BuyerAdapter.IOnBuyerClickCallback {
+                    adapter.setOnItemClickCallback(object : BuyerAdapter.IOnBuyerClickCallback {
 
-                    override fun onProofClicked(data: TransactionWithUser) {
-                        openPopUp(data.transaction.img_proof!!)
-                    }
+                        override fun onProofClicked(data: TransactionWithUser) {
+                            openPopUp(data.transaction.img_proof!!)
+                        }
 
-                    override fun onPaidChecked(data: TransactionWithUser, checked: Boolean, context: Context) {
-                        viewModel.updatePaidStatus(data.transaction.transactionId!!, checked) { isSuccess, message ->
-                            if (isSuccess) {
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context, "Update payment status failed", Toast.LENGTH_SHORT).show()
+                        override fun onPaidChecked(data: TransactionWithUser, checked: Boolean, context: Context) {
+                            viewModel.updatePaidStatus(data.transaction.transactionId!!, checked) { isSuccess, message ->
+                                if (isSuccess) {
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Update payment status failed", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
-                    }
 
-                    override fun onTakenChecked(data: TransactionWithUser, checked: Boolean, context: Context) {
-                        viewModel.updateTakenStatus(data.transaction.transactionId!!, checked) { isSuccess, message ->
-                            if (isSuccess) {
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(context, "Update taken status failed", Toast.LENGTH_SHORT).show()
+                        override fun onTakenChecked(data: TransactionWithUser, checked: Boolean, context: Context) {
+                            viewModel.updateTakenStatus(data.transaction.transactionId!!, checked) { isSuccess, message ->
+                                if (isSuccess) {
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Update taken status failed", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
-                    }
 
-                })
+                    })
+                }
             }
 
             viewModel.totalPrice.observe(this) { totalPrice ->
