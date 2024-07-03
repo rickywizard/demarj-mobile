@@ -54,9 +54,9 @@ class LoginViewModel(private val context: Context) : ViewModel() {
         })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric login for My App")
+            .setTitle("Biometric login for DEmaRJ")
             .setSubtitle("Log in using your biometric credential")
-            .setNegativeButtonText("Use account password")
+            .setNegativeButtonText("Cancel")
             .build()
 
         _biometricPromptInfo.value = promptInfo
@@ -124,7 +124,7 @@ class LoginViewModel(private val context: Context) : ViewModel() {
         viewModelScope.launch {
             val loginResult = userRepository.loginAuth(email, password)
             if (loginResult.isFailure) {
-                _errorMessage.postValue(loginResult.exceptionOrNull()?.message)
+                _errorMessage.value = "Invalid credentials"
             } else {
                 val userId = loginResult.getOrNull() ?: return@launch
                 fetchUserData(userId)

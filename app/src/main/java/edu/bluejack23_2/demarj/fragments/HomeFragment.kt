@@ -2,6 +2,7 @@ package edu.bluejack23_2.demarj.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -55,19 +56,26 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(PreOrderViewModel::class.java)
 
         viewModel.preOrdersWithStore.observe(viewLifecycleOwner) { preOrdersWithStore ->
-            adapter = ListPreOrderAdapter(preOrdersWithStore)
-            homeBinding.rvPreOrder.adapter = adapter
-            homeBinding.rvPreOrder.layoutManager = LinearLayoutManager(context)
-            homeBinding.rvPreOrder.setHasFixedSize(true)
-            homeBinding.loadingBar.visibility = View.GONE
+            if (preOrdersWithStore.isNullOrEmpty()) {
+                homeBinding.loadingBar.visibility = View.GONE
+                homeBinding.tvNoData.visibility = View.VISIBLE
+            }
+            else {
+                adapter = ListPreOrderAdapter(preOrdersWithStore)
+                homeBinding.rvPreOrder.adapter = adapter
+                homeBinding.rvPreOrder.layoutManager = LinearLayoutManager(context)
+                homeBinding.rvPreOrder.setHasFixedSize(true)
+                homeBinding.loadingBar.visibility = View.GONE
+                homeBinding.tvNoData.visibility = View.GONE
 
-            adapter.setOnItemClickCallback(object : ListPreOrderAdapter.IOnPreOrderClickCallback {
-                override fun onPreOrderClicked(data: PreOrderWithStore) {
-                    val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
-                    intentToDetail.putExtra("DATA", data)
-                    startActivity(intentToDetail)
-                }
-            })
+                adapter.setOnItemClickCallback(object : ListPreOrderAdapter.IOnPreOrderClickCallback {
+                    override fun onPreOrderClicked(data: PreOrderWithStore) {
+                        val intentToDetail = Intent(requireActivity(), DetailPOActivity::class.java)
+                        intentToDetail.putExtra("DATA", data)
+                        startActivity(intentToDetail)
+                    }
+                })
+            }
         }
     }
 

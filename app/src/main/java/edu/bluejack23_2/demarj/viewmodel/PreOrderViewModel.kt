@@ -86,6 +86,7 @@ class PreOrderViewModel() : ViewModel() {
     }
 
     fun fetchPreOrderByStoreId(storeId: String) {
+        _preOrdersByStoreId.postValue(emptyList())
         repository.getPreOrderById(storeId).observeForever {
             _preOrdersByStoreId.value = it
         }
