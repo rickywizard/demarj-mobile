@@ -137,7 +137,7 @@
                 android:id="@+id/imgProfile"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/dummy_profile"
+                android:src="@drawable/dummy_profpict"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/alt"
                 android:scaleType="centerCrop"
