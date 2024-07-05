@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
         if (!profilePicture.isNullOrEmpty()) {
             Glide.with(this).load(profilePicture).into(profileBinding.imgProfile)
         } else {
-            profileBinding.imgProfile.setImageResource(R.drawable.dummy_profile)
+            profileBinding.imgProfile.setImageResource(R.drawable.dummy_profpict)
         }
     }
 

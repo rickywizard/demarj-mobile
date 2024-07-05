@@ -2,6 +2,7 @@ package edu.bluejack23_2.demarj.viewmodel
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -93,11 +94,12 @@ class TransactionViewModel: ViewModel() {
         }
     }
 
-    fun deleteTransaction(transactionId: String, readyDate: String) {
+    fun deleteTransaction(transactionId: String, endDate: String) {
         val today = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        val ready = dateFormat.parse(readyDate)
-        if (ready!= null && ready.before(today)) {
+        val end = dateFormat.parse(endDate)
+        if (end!= null && today.before(end)) {
+            Log.d("TES", "trigerred")
             repository.deleteTransaction(transactionId) { success ->
                 _deleteResult.postValue(success)
             }

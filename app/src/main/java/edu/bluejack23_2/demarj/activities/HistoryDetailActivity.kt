@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +16,7 @@ import edu.bluejack23_2.demarj.databinding.ActivityHistoryDetailBinding
 import edu.bluejack23_2.demarj.model.History
 import edu.bluejack23_2.demarj.viewmodel.TransactionViewModel
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class HistoryDetailActivity : AppCompatActivity() {
@@ -97,7 +100,7 @@ class HistoryDetailActivity : AppCompatActivity() {
     }
 
     private fun onConfirmedCancel(data: History) {
-        viewModel.deleteTransaction(data.transaction.transactionId!!, data.preOrder.po_ready_date!!)
+        viewModel.deleteTransaction(data.transaction.transactionId!!, data.preOrder.po_end_date!!)
 
         viewModel.deleteResult.observe(this) { success ->
             if (success) {
@@ -136,6 +139,33 @@ class HistoryDetailActivity : AppCompatActivity() {
             "Paid"
         } else {
             "Unpaid"
+        }
+
+        val today = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+        val ready = dateFormat.parse(data.preOrder.po_ready_date!!)
+        val end = dateFormat.parse(data.preOrder.po_end_date!!)
+
+//        Log.d("END", "$end")
+//        Log.d("READY", "$ready")
+//        Log.d("TODAY", "$today")
+//        Log.d("CEKUP", "${ready.before(today)}")
+
+        if (ready != null) {
+            binding.btnUploadProof.visibility = if (today.after(ready)) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
+        if (end != null) {
+            binding.btnCancel.visibility = if (end.before(today)) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
         }
     }
 

@@ -150,7 +150,7 @@ class PreOrderRepository {
                     val preOrder = it.getValue(PreOrder::class.java)
                     preOrder?.let {
                         val endDate = dateFormat.parse(it.po_end_date!!)
-                        Log.d("DATE", "today: $today, end: $endDate")
+//                        Log.d("DATE", "today: $today, end: $endDate")
                         if (endDate != null && endDate.after(today) && preOrder.po_stock != null && preOrder.po_stock > 0) {
                             preOrderList.add(preOrder)
                         }

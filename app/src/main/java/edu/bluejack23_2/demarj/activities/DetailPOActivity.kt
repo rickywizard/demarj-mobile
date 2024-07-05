@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Build.VERSION
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
@@ -109,8 +110,6 @@ class DetailPOActivity : AppCompatActivity() {
             viewModel.addTransaction(role, transaction, data.preOrder.po_stock!!) { isSuccess, errorMessage ->
                 if (isSuccess) {
                     Toast.makeText(this, "Order success", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
                     finish()
                 } else {
                     Toast.makeText(this, errorMessage ?: "Order failed", Toast.LENGTH_SHORT).show()
@@ -165,13 +164,31 @@ class DetailPOActivity : AppCompatActivity() {
         }
         binding.detailPoStock.text = data.preOrder.po_stock.toString()
 
+        binding.cbLargeSize.visibility = if (data.preOrder.po_large_price <= 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        binding.detailLargeSize.visibility = if (data.preOrder.po_large_price <= 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        binding.detailLargeSizeText.visibility = if (data.preOrder.po_large_price <= 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
         totalPrice = data.preOrder.po_price!!
         binding.tvTotalPrice.text = formatToRupiah(totalPrice)
 
         if (!data.store.profile_picture.isNullOrEmpty()) {
             Glide.with(this).load(data.store.profile_picture).into(binding.photoProfileDetailPo)
         } else {
-            binding.detailPoImage.setImageResource(R.drawable.dummy_profile)
+            binding.detailPoImage.setImageResource(R.drawable.dummy_profpict)
         }
 
         binding.detailStoreNameText.text = data.store.store_name
